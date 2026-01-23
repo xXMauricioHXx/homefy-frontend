@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchPdfById } from "../services/api";
@@ -12,10 +12,14 @@ import "../pages/PDF.css";
 function PDFPreviewPage() {
   const { pdfId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Get selected images from navigation state (if any)
+  const selectedImages = location.state?.selectedImages || [];
 
   useEffect(() => {
     const loadPdfData = async () => {
@@ -154,15 +158,23 @@ function PDFPreviewPage() {
           {/* Page 2: Property Description */}
           <PropertyDescriptionPage property={data.property} />{" "}
           {/* Gallery Pages - One image per page */}
-          {data.property.gallery?.map((image, index) => (
-            <GalleryPage
-              key={index}
-              image={image}
-              brand={data.brand}
-              propertyResume={data.property.resume}
-              index={index}
-            />
-          ))}
+          {(() => {
+            // Use selected images if available, otherwise use all gallery images
+            const galleryImages =
+              selectedImages.length > 0
+                ? selectedImages
+                : data.property.gallery || [];
+
+            return galleryImages.map((image, index) => (
+              <GalleryPage
+                key={index}
+                image={image}
+                brand={data.brand}
+                propertyResume={data.property.resume}
+                index={index}
+              />
+            ));
+          })()}
           {/* Final Page: Summary and Contact */}
           <SummaryPage property={data.property} agent={agent} />
         </div>

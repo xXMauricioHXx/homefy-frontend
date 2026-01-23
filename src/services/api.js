@@ -109,3 +109,67 @@ export async function fetchPdfById(pdfId, token) {
     throw error;
   }
 }
+
+/**
+ * Upload images to remove watermarks
+ * @param {string[]} urls - Array of image URLs to process
+ * @param {string} token - Firebase authentication token
+ * @returns {Promise<string[]>} Array of processed image URLs without watermarks
+ */
+export async function uploadImages(urls, pdfId, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // Add Authorization header
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-uploadImages`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ urls, pdfId }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    throw error;
+  }
+}
+
+export const createPdf = async (pdfData, token) => {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // Add Authorization header
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-createPdf`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(pdfData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error creating PDF:", error);
+    throw error;
+  }
+};
