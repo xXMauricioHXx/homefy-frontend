@@ -318,10 +318,17 @@
    IMPRESSÃO
    ========================= */
 @media print {
+  /* Hide navbar during print */
+  .navbar,
+  .header-navbar {
+    display: none !important;
+  }
+
   .pdf-container {
     background: none;
     padding: 0;
     gap: 0;
+    margin-top: 0 !important;
   }
   .pdf-page {
     box-shadow: none;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useUser } from "../../hooks/useUser";
 
-function SummaryPage({ property }) {
+function SummaryPage({ property, colors }) {
   const { userData, user } = useUser();
 
   // Use user data from context, with fallback to default values
@@ -13,7 +13,7 @@ function SummaryPage({ property }) {
   return (
     <div className="pdf-page final-page">
       <div>
-        <h2>Resumo</h2>
+        <h2 style={{ color: colors?.primary || "#ed6325" }}>Resumo</h2>
 
         <div className="room-desc flex">
           {property.features && property.features.length > 0 && (
@@ -22,7 +22,11 @@ function SummaryPage({ property }) {
               <ul className="room-features">
                 {property.features.map((item, index) => (
                   <li style={{ color: "white" }} key={index}>
-                    <svg className="check-icon" viewBox="0 0 24 24">
+                    <svg
+                      className="check-icon"
+                      viewBox="0 0 24 24"
+                      style={{ fill: colors?.secondary || "#d45520" }}
+                    >
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                     </svg>
                     {item}
@@ -38,7 +42,11 @@ function SummaryPage({ property }) {
               <ul className="room-features">
                 {property.infrastructures.map((item, index) => (
                   <li style={{ color: "white" }} key={index}>
-                    <svg className="check-icon" viewBox="0 0 24 24">
+                    <svg
+                      className="check-icon"
+                      viewBox="0 0 24 24"
+                      style={{ fill: colors?.secondary || "#d45520" }}
+                    >
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                     </svg>
                     {item}
@@ -54,26 +62,41 @@ function SummaryPage({ property }) {
         <div className="final-summary">
           <div className="summary-grid">
             <div className="summary-item">
-              <small>Área Total</small>
+              <small style={{ color: colors?.secondary || "#d45520" }}>
+                Área Total
+              </small>
               <div>{property.area} m²</div>
             </div>
             <div className="summary-item">
-              <small>Condomínio</small>
+              <small style={{ color: colors?.secondary || "#d45520" }}>
+                Condomínio
+              </small>
               <div>{property.condominium}</div>
             </div>
             <div className="summary-item">
-              <small>Vagas</small>
+              <small style={{ color: colors?.secondary || "#d45520" }}>
+                Vagas
+              </small>
               <div>{property.parking}</div>
             </div>
             <div className="summary-item">
-              <small>IPTU</small>
+              <small style={{ color: colors?.secondary || "#d45520" }}>
+                IPTU
+              </small>
               <div>{property.iptu}</div>
             </div>
           </div>
 
           <div style={{ marginTop: "30px" }}>
-            <small>Investimento</small>
-            <span className="price-tag">{property.price}</span>
+            <small style={{ color: colors?.secondary || "#d45520" }}>
+              Investimento
+            </small>
+            <span
+              className="price-tag"
+              style={{ color: colors?.secondary || "#d45520" }}
+            >
+              {property.price}
+            </span>
           </div>
         </div>
       </div>
@@ -82,7 +105,10 @@ function SummaryPage({ property }) {
         <p style={{ marginBottom: "20px", fontSize: "20px" }}>
           Interessado? Agende uma visita.
         </p>
-        <div className="agent-card">
+        <div
+          className="agent-card"
+          style={{ color: colors?.primary || "#ed6325" }}
+        >
           <img
             src={
               agentPhoto ||
@@ -113,6 +139,10 @@ SummaryPage.propTypes = {
     iptu: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
   }).isRequired,
+  colors: PropTypes.shape({
+    primary: PropTypes.string,
+    secondary: PropTypes.string,
+  }),
 };
 
 export default SummaryPage;

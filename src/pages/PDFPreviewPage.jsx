@@ -1,22 +1,27 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
 import { fetchPdfById } from "../services/api";
 import Button from "../components/Button";
+import ConfigPanel from "../components/config/ConfigPanel";
 import CoverPage from "../components/pdf/CoverPage";
 import PropertyDescriptionPage from "../components/pdf/PropertyDescriptionPage";
 import GalleryPage from "../components/pdf/GalleryPage";
 import SummaryPage from "../components/pdf/SummaryPage";
 import "../pages/PDF.css";
+import "../pages/PDFPreviewPage.css";
 
-function PDFPreviewPage() {
+function PDFPreviewContent() {
   const { pdfId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { config } = usePdfConfig();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Get selected images from navigation state (if any)
   const selectedImages = location.state?.selectedImages || [];
@@ -141,36 +146,73 @@ function PDFPreviewPage() {
         </div>
       )}
 
-      {/* PDF Content - Scrollable */}
+      {/* Main Content - PDF Preview + Config Panel */}
       {data && !loading && !error && (
-        <div className="pdf-container" style={{ marginTop: "80px" }}>
-          {/* Page 1: Cover */}
-          <CoverPage brand={data.brand} mainImage={data.property.mainImage} />
-          {/* Page 2: Property Description */}
-          <PropertyDescriptionPage property={data.property} />{" "}
-          {/* Gallery Pages - One image per page */}
-          {(() => {
-            // Use selected images if available, otherwise use all gallery images
-            const galleryImages =
-              selectedImages.length > 0
-                ? selectedImages
-                : data.property.gallery || [];
+        <div className="pdf-preview-layout">
+          {/* PDF Content - Scrollable */}
+          <div className="pdf-container" style={{ marginTop: "80px" }}>
+            {/* Page 1: Cover */}
+            <CoverPage
+              brand={data.brand}
+              mainImage={data.property.mainImage}
+              colors={config.colors}
+            />
+            {/* Page 2: Property Description */}
+            <PropertyDescriptionPage
+              property={data.property}
+              colors={config.colors}
+            />
+            {/* Gallery Pages - One image per page */}
+            {(() => {
+              // Use selected images if available, otherwise use all gallery images
+              const galleryImages =
+                selectedImages.length > 0
+                  ? selectedImages
+                  : data.property.gallery || [];
 
-            return galleryImages.map((image, index) => (
-              <GalleryPage
-                key={index}
-                image={image}
-                brand={data.brand}
-                propertyResume={data.property.resume}
-                index={index}
-              />
-            ));
-          })()}
-          {/* Final Page: Summary and Contact */}
-          <SummaryPage property={data.property} />
+              return galleryImages.map((image, index) => (
+                <GalleryPage
+                  key={index}
+                  image={image}
+                  brand={data.brand}
+                  propertyResume={data.property.resume}
+                  index={index}
+                  colors={config.colors}
+                />
+              ));
+            })()}
+            {/* Final Page: Summary and Contact */}
+            <SummaryPage property={data.property} colors={config.colors} />
+          </div>
+
+          {/* Floating Configuration Button */}
+          <button
+            className="floating-config-button"
+            onClick={() => setIsDrawerOpen(true)}
+            aria-label="Abrir configurações"
+          >
+            <span className="config-button-icon">⚙️</span>
+            <span className="config-button-text">CONFIG</span>
+          </button>
+
+          {/* Configuration Drawer */}
+          <ConfigPanel
+            isOpen={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+          />
         </div>
       )}
     </div>
+  );
+}
+
+function PDFPreviewPage() {
+  const { pdfId } = useParams();
+
+  return (
+    <PdfConfigProvider pdfId={pdfId}>
+      <PDFPreviewContent />
+    </PdfConfigProvider>
   );
 }
 

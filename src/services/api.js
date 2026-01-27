@@ -229,3 +229,31 @@ export async function updateUserData(userData, token) {
     throw error;
   }
 }
+
+export async function updatePdfConfig(pdfId, config, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-updatePdfConfig`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({ pdfId, config }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating PDF config:", error);
+    throw error;
+  }
+}

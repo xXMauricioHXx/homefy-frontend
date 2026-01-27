@@ -1,10 +1,18 @@
 import PropTypes from "prop-types";
 
-function PropertyDescriptionPage({ property }) {
+function PropertyDescriptionPage({ property, colors }) {
   return (
     <div className="pdf-page room-page">
-      <div className="room-header">
-        <div className="room-title">Apartamento à Venda</div>
+      <div
+        className="room-header"
+        style={{ borderBottomColor: colors?.secondary || "#d45520" }}
+      >
+        <div
+          className="room-title"
+          style={{ color: colors?.primary || "#ed6325" }}
+        >
+          Apartamento à Venda
+        </div>
         <div className="room-subtitle">{property.resume}</div>
       </div>
 
@@ -12,7 +20,7 @@ function PropertyDescriptionPage({ property }) {
 
       <div className="room-body">
         <div className="room-desc">
-          <h3>Descrição</h3>
+          <h3 style={{ color: colors?.secondary || "#d45520" }}>Descrição</h3>
           <p>{property.description}</p>
         </div>
 
@@ -38,6 +46,10 @@ PropertyDescriptionPage.propTypes = {
     mainImage: PropTypes.string.isRequired,
     sideImages: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  colors: PropTypes.shape({
+    primary: PropTypes.string,
+    secondary: PropTypes.string,
+  }),
 };
 
 export default PropertyDescriptionPage;

@@ -8,6 +8,78 @@
   background: var(--color-bg-primary);
 }
 
+/* Layout for PDF + Config Panel */
+.pdf-preview-layout {
+  position: relative;
+  padding: 0 2rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Floating Configuration Button */
+.floating-config-button {
+  position: fixed;
+  top: 10%;
+  right: 2rem;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ed6325 0%, #d45520 100%);
+  border: none;
+  box-shadow:
+    0 4px 16px rgba(237, 99, 37, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  z-index: 998;
+  transition: all 0.3s ease;
+  animation: floatPulse 3s ease-in-out infinite;
+}
+
+.floating-config-button:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow:
+    0 6px 24px rgba(237, 99, 37, 0.4),
+    0 12px 48px rgba(0, 0, 0, 0.2);
+}
+
+.floating-config-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.config-button-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.config-button-text {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: white;
+  line-height: 1;
+}
+
+@keyframes floatPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 16px rgba(237, 99, 37, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 6px 20px rgba(237, 99, 37, 0.4),
+      0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
 /* Main Content */
 .preview-main {
   flex: 1;
@@ -142,7 +214,25 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
+  .pdf-preview-layout {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .floating-config-button {
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+  }
+
+  .config-button-icon {
+    font-size: 1.25rem;
+  }
+
+  .config-button-text {
+    font-size: 0.45rem;
+  }
+
   .preview-title {
     font-size: 2.5rem;
   }
@@ -171,5 +261,18 @@
 
   .brand-icon {
     font-size: 3rem;
+  }
+}
+
+/* Print styles - hide config panel and floating button */
+@media print {
+  .pdf-preview-layout {
+    padding: 0;
+  }
+
+  .config-panel,
+  .config-panel-overlay,
+  .floating-config-button {
+    display: none !important;
   }
 }
