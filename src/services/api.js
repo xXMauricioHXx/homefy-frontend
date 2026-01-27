@@ -1,23 +1,11 @@
-/**
- * API Service for Homefy
- * Handles all HTTP requests to the backend
- */
-
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-/**
- * Fetch property data from the scraping endpoint
- * @param {string} url - The real estate property URL to scrape
- * @param {string} token - Firebase authentication token
- * @returns {Promise<{pdfId: string, data: object}>} The scraped property data
- */
 export async function fetchPropertyData(url, token) {
   try {
     const headers = {
       "Content-Type": "application/json",
     };
 
-    // Add Authorization header if token is provided
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -40,18 +28,12 @@ export async function fetchPropertyData(url, token) {
   }
 }
 
-/**
- * Fetch user's PDFs from the database
- * @param {string} token - Firebase authentication token
- * @returns {Promise<{pdfs: Array, total: number}>} The user's PDFs
- */
 export async function fetchUserPdfs(token) {
   try {
     const headers = {
       "Content-Type": "application/json",
     };
 
-    // Add Authorization header
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -73,19 +55,12 @@ export async function fetchUserPdfs(token) {
   }
 }
 
-/**
- * Fetch a specific PDF by its ID
- * @param {string} pdfId - The PDF ID to fetch
- * @param {string} token - Firebase authentication token
- * @returns {Promise<object>} The PDF data
- */
 export async function fetchPdfById(pdfId, token) {
   try {
     const headers = {
       "Content-Type": "application/json",
     };
 
-    // Add Authorization header
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -110,19 +85,12 @@ export async function fetchPdfById(pdfId, token) {
   }
 }
 
-/**
- * Upload images to remove watermarks
- * @param {string[]} urls - Array of image URLs to process
- * @param {string} token - Firebase authentication token
- * @returns {Promise<string[]>} Array of processed image URLs without watermarks
- */
 export async function uploadImages(urls, pdfId, token) {
   try {
     const headers = {
       "Content-Type": "application/json",
     };
 
-    // Add Authorization header
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -151,7 +119,6 @@ export const createPdf = async (pdfData, token) => {
       "Content-Type": "application/json",
     };
 
-    // Add Authorization header
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -173,3 +140,92 @@ export const createPdf = async (pdfData, token) => {
     throw error;
   }
 };
+
+export async function fetchUserById(token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // Add Authorization header
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-getUserById`, {
+      method: "GET",
+      headers,
+    });
+
+    if (!response.ok) {
+      // If user not found (404), return null instead of throwing
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw error;
+  }
+}
+
+export async function saveUserData(userData, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // Add Authorization header
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-createUser`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error saving user data:", error);
+    throw error;
+  }
+}
+
+export async function updateUserData(userData, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-updateUser`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating user data:", error);
+    throw error;
+  }
+}

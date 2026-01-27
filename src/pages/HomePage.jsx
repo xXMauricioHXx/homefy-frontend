@@ -1,8 +1,7 @@
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import Button from "../components/Button";
 import { createPdf, fetchPropertyData } from "../services/api";
 import RecentPdfsSection from "../components/RecentPdfsSection";
@@ -24,14 +23,6 @@ function HomePage() {
   const [description, setDescription] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Erro ao sair:", error);
-    }
-  };
 
   const handleGeneratePDF = async () => {
     // Validate URL
@@ -147,35 +138,7 @@ function HomePage() {
   return (
     <div className="home-container">
       {/* Top Navigation Bar */}
-      <nav className="navbar">
-        <div className="navbar-content">
-          <div className="navbar-logo">
-            <span className="logo-text gradient-text">Homefy</span>
-          </div>
-
-          <div className="navbar-actions">
-            {user && (
-              <>
-                <div className="user-badge">
-                  {user.photoURL && (
-                    <img
-                      src={user.photoURL}
-                      alt={user.displayName || "User"}
-                      className="user-avatar-small"
-                    />
-                  )}
-                  <span className="user-name">
-                    {user.displayName || user.email}
-                  </span>
-                </div>
-                <Button variant="logout" onClick={handleLogout}>
-                  Sair
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* Animated Background */}
       <div className="home-background">

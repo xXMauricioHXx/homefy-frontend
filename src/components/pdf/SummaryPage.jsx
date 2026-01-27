@@ -1,6 +1,15 @@
 import PropTypes from "prop-types";
+import { useUser } from "../../hooks/useUser";
 
-function SummaryPage({ property, agent }) {
+function SummaryPage({ property }) {
+  const { userData, user } = useUser();
+
+  // Use user data from context, with fallback to default values
+  const agentName = userData?.name || user?.displayName || "Corretor";
+  const agentEmail = userData?.email || user?.email || "contato@exemplo.com";
+  const agentPhone = userData?.phone || "(00) 00000-0000";
+  const agentPhoto = user?.photoURL || null;
+
   return (
     <div className="pdf-page final-page">
       <div>
@@ -76,17 +85,17 @@ function SummaryPage({ property, agent }) {
         <div className="agent-card">
           <img
             src={
-              agent.photo ||
+              agentPhoto ||
               "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop"
             }
             className="agent-img"
             alt="Corretor"
           />
           <div className="agent-info">
-            <h3>{agent.name}</h3>
-            <p>{agent.specialization}</p>
-            <p className="agent-phone">{agent.phone}</p>
-            <p>{agent.email}</p>
+            <h3>{agentName}</h3>
+            <p>Corretor de Imóveis</p>
+            <p className="agent-phone">{agentPhone}</p>
+            <p>{agentEmail}</p>
           </div>
         </div>
       </div>
@@ -103,13 +112,6 @@ SummaryPage.propTypes = {
     parking: PropTypes.string.isRequired,
     iptu: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
-  }).isRequired,
-  agent: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    specialization: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    photo: PropTypes.string,
   }).isRequired,
 };
 

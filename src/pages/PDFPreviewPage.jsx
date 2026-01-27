@@ -45,15 +45,6 @@ function PDFPreviewPage() {
     loadPdfData();
   }, [pdfId, user, navigate]);
 
-  // Agent data - can be customized or fetched from user profile
-  const agent = {
-    name: "Maurício Henrique",
-    specialization: "Corretor de Imóveis",
-    phone: "(55) 99999-9999",
-    email: "mauricio@corretor.com",
-    photo: null, // Will use default image
-  };
-
   return (
     <div className="pdf-preview-container">
       {/* Top Navigation Bar - Fixed for navigation */}
@@ -176,7 +167,7 @@ function PDFPreviewPage() {
             ));
           })()}
           {/* Final Page: Summary and Contact */}
-          <SummaryPage property={data.property} agent={agent} />
+          <SummaryPage property={data.property} />
         </div>
       )}
     </div>
