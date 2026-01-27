@@ -8,6 +8,8 @@ const DEFAULT_CONFIG = {
   colors: {
     primary: "#ed6325",
     secondary: "#d45520",
+    titleColor: "#ffffff",
+    summaryBackground: "#1a1a1a",
   },
   // Prepared for future sections
   texts: {},
@@ -15,6 +17,7 @@ const DEFAULT_CONFIG = {
     order: [],
     mainImage: null,
   },
+  showExclusivityTag: true,
 };
 
 export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
@@ -41,6 +44,14 @@ export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
     setConfig((prev) => ({
       ...prev,
       images: { ...prev.images, ...images },
+    }));
+    setHasChanges(true);
+  };
+
+  const updateShowExclusivityTag = (show) => {
+    setConfig((prev) => ({
+      ...prev,
+      showExclusivityTag: show,
     }));
     setHasChanges(true);
   };
@@ -72,6 +83,7 @@ export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
     updateColors,
     updateTexts,
     updateImages,
+    updateShowExclusivityTag,
     resetConfig,
     saveConfig,
   };
@@ -90,12 +102,15 @@ PdfConfigProvider.propTypes = {
     colors: PropTypes.shape({
       primary: PropTypes.string,
       secondary: PropTypes.string,
+      titleColor: PropTypes.string,
+      summaryBackground: PropTypes.string,
     }),
     texts: PropTypes.object,
     images: PropTypes.shape({
       order: PropTypes.array,
       mainImage: PropTypes.string,
     }),
+    showExclusivityTag: PropTypes.bool,
   }),
 };
 

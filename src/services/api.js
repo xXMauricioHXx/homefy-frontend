@@ -240,7 +240,7 @@ export async function updatePdfConfig(pdfId, config, token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
 
-    const response = await fetch(`${API_BASE_URL}/scrap-updatePdfConfig`, {
+    const response = await fetch(`${API_BASE_URL}/scrap-updatePdf`, {
       method: "PUT",
       headers,
       body: JSON.stringify({ pdfId, config }),

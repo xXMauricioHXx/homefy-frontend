@@ -11,14 +11,26 @@ function SummaryPage({ property, colors }) {
   const agentPhoto = user?.photoURL || null;
 
   return (
-    <div className="pdf-page final-page">
+    <div
+      className="pdf-page final-page"
+      style={{ backgroundColor: colors?.summaryBackground || "#1a1a1a" }}
+    >
       <div>
-        <h2 style={{ color: colors?.primary || "#ed6325" }}>Resumo</h2>
+        <h2
+          style={{
+            color: colors?.primary || "#ed6325",
+            borderBottom: `${colors?.primary || "#ed6325"} 2px solid`,
+          }}
+        >
+          Resumo
+        </h2>
 
         <div className="room-desc flex">
           {property.features && property.features.length > 0 && (
             <div>
-              <h3>Características</h3>
+              <h3 style={{ color: colors?.secondary || "#d45520" }}>
+                Características
+              </h3>
               <ul className="room-features">
                 {property.features.map((item, index) => (
                   <li style={{ color: "white" }} key={index}>
@@ -38,7 +50,9 @@ function SummaryPage({ property, colors }) {
 
           {property.infrastructures && property.infrastructures.length > 0 && (
             <div>
-              <h3>Infraestrutura</h3>
+              <h3 style={{ color: colors?.secondary || "#d45520" }}>
+                Infraestrutura
+              </h3>
               <ul className="room-features">
                 {property.infrastructures.map((item, index) => (
                   <li style={{ color: "white" }} key={index}>
@@ -142,6 +156,7 @@ SummaryPage.propTypes = {
   colors: PropTypes.shape({
     primary: PropTypes.string,
     secondary: PropTypes.string,
+    summaryBackground: PropTypes.string,
   }),
 };
 

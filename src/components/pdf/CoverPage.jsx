@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function CoverPage({ brand, mainImage, colors }) {
+function CoverPage({ brand, mainImage, colors, showExclusivityTag = true }) {
   return (
     <div className="pdf-page cover-page">
       <img src={mainImage} className="cover-image" alt="Fachada" />
@@ -8,10 +8,12 @@ function CoverPage({ brand, mainImage, colors }) {
         className="cover-content"
         style={{ backgroundColor: colors?.primary || "#ed6325" }}
       >
-        <div className="tag" style={{ color: colors?.primary || "#ed6325" }}>
-          Exclusividade
-        </div>
-        <h1>
+        {showExclusivityTag && (
+          <div className="tag" style={{ color: colors?.primary || "#ed6325" }}>
+            Exclusividade
+          </div>
+        )}
+        <h1 style={{ color: colors?.titleColor || "#ffffff" }}>
           {brand.name} <br />
           {brand.location}
         </h1>
@@ -31,7 +33,9 @@ CoverPage.propTypes = {
   colors: PropTypes.shape({
     primary: PropTypes.string,
     secondary: PropTypes.string,
+    titleColor: PropTypes.string,
   }),
+  showExclusivityTag: PropTypes.bool,
 };
 
 export default CoverPage;

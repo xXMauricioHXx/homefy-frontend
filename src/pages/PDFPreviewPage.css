@@ -20,7 +20,7 @@
 /* Floating Configuration Button */
 .floating-config-button {
   position: fixed;
-  top: 10%;
+  top: 12%;
   right: 2rem;
   transform: translateY(-50%);
   width: 64px;

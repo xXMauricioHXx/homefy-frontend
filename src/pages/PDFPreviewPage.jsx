@@ -12,43 +12,14 @@ import SummaryPage from "../components/pdf/SummaryPage";
 import "../pages/PDF.css";
 import "../pages/PDFPreviewPage.css";
 
-function PDFPreviewContent() {
-  const { pdfId } = useParams();
+function PDFPreviewContent({ data }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
   const { config } = usePdfConfig();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Get selected images from navigation state (if any)
   const selectedImages = location.state?.selectedImages || [];
-
-  useEffect(() => {
-    const loadPdfData = async () => {
-      if (!pdfId || !user) {
-        navigate("/");
-        return;
-      }
-
-      try {
-        setLoading(true);
-        setError(null);
-        const token = await user.getIdToken();
-        const pdfData = await fetchPdfById(pdfId, token);
-        setData(pdfData);
-      } catch (err) {
-        console.error("Error loading PDF:", err);
-        setError("Erro ao carregar PDF. Por favor, tente novamente.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPdfData();
-  }, [pdfId, user, navigate]);
 
   return (
     <div className="pdf-preview-container">
@@ -75,8 +46,112 @@ function PDFPreviewContent() {
         </div>
       </nav>
 
-      {/* Loading State */}
-      {loading && (
+      {/* Main Content - PDF Preview + Config Panel */}
+      {data && (
+        <div className="pdf-preview-layout">
+          {/* PDF Content - Scrollable */}
+          <div className="pdf-container" style={{ marginTop: "80px" }}>
+            {/* Page 1: Cover */}
+            <CoverPage
+              brand={data.brand}
+              mainImage={data.property.mainImage}
+              colors={config.colors}
+              showExclusivityTag={config.showExclusivityTag}
+            />
+            {/* Page 2: Property Description */}
+            <PropertyDescriptionPage
+              property={data.property}
+              colors={config.colors}
+            />
+            {/* Gallery Pages - One image per page */}
+            {(() => {
+              // Use selected images if available, otherwise use all gallery images
+              const galleryImages =
+                selectedImages.length > 0
+                  ? selectedImages
+                  : data.property.gallery || [];
+
+              return galleryImages.map((image, index) => (
+                <GalleryPage
+                  key={index}
+                  image={image}
+                  brand={data.brand}
+                  propertyResume={data.property.resume}
+                  index={index}
+                  colors={config.colors}
+                />
+              ));
+            })()}
+            {/* Final Page: Summary and Contact */}
+            <SummaryPage property={data.property} colors={config.colors} />
+          </div>
+
+          {/* Floating Configuration Button */}
+          <button
+            className="floating-config-button"
+            onClick={() => setIsDrawerOpen(true)}
+            aria-label="Abrir configurações"
+          >
+            <span className="config-button-icon">⚙️</span>
+          </button>
+
+          {/* Configuration Drawer */}
+          <ConfigPanel
+            isOpen={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PDFPreviewPage() {
+  const { pdfId } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadPdfData = async () => {
+      if (!pdfId || !user) {
+        navigate("/");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const token = await user.getIdToken();
+        const pdfData = await fetchPdfById(pdfId, token);
+        setData(pdfData);
+      } catch (err) {
+        console.error("Error loading PDF:", err);
+        setError("Erro ao carregar PDF. Por favor, tente novamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPdfData();
+  }, [pdfId, user, navigate]);
+
+  // Loading State
+  if (loading) {
+    return (
+      <div className="pdf-preview-container">
+        <nav
+          className="navbar"
+          style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000 }}
+        >
+          <div className="navbar-content">
+            <div className="navbar-logo">
+              <span className="logo-text gradient-text">Homefy</span>
+            </div>
+          </div>
+        </nav>
         <div
           style={{
             marginTop: "80px",
@@ -102,10 +177,24 @@ function PDFPreviewContent() {
             Carregando PDF...
           </p>
         </div>
-      )}
+      </div>
+    );
+  }
 
-      {/* Error State */}
-      {error && (
+  // Error State
+  if (error) {
+    return (
+      <div className="pdf-preview-container">
+        <nav
+          className="navbar"
+          style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000 }}
+        >
+          <div className="navbar-content">
+            <div className="navbar-logo">
+              <span className="logo-text gradient-text">Homefy</span>
+            </div>
+          </div>
+        </nav>
         <div
           style={{
             marginTop: "80px",
@@ -144,76 +233,20 @@ function PDFPreviewContent() {
             Voltar para Home
           </Button>
         </div>
-      )}
+      </div>
+    );
+  }
 
-      {/* Main Content - PDF Preview + Config Panel */}
-      {data && !loading && !error && (
-        <div className="pdf-preview-layout">
-          {/* PDF Content - Scrollable */}
-          <div className="pdf-container" style={{ marginTop: "80px" }}>
-            {/* Page 1: Cover */}
-            <CoverPage
-              brand={data.brand}
-              mainImage={data.property.mainImage}
-              colors={config.colors}
-            />
-            {/* Page 2: Property Description */}
-            <PropertyDescriptionPage
-              property={data.property}
-              colors={config.colors}
-            />
-            {/* Gallery Pages - One image per page */}
-            {(() => {
-              // Use selected images if available, otherwise use all gallery images
-              const galleryImages =
-                selectedImages.length > 0
-                  ? selectedImages
-                  : data.property.gallery || [];
+  // Main content with PdfConfigProvider initialized with config from API
+  if (data) {
+    return (
+      <PdfConfigProvider pdfId={pdfId} initialConfig={data.config}>
+        <PDFPreviewContent data={data} />
+      </PdfConfigProvider>
+    );
+  }
 
-              return galleryImages.map((image, index) => (
-                <GalleryPage
-                  key={index}
-                  image={image}
-                  brand={data.brand}
-                  propertyResume={data.property.resume}
-                  index={index}
-                  colors={config.colors}
-                />
-              ));
-            })()}
-            {/* Final Page: Summary and Contact */}
-            <SummaryPage property={data.property} colors={config.colors} />
-          </div>
-
-          {/* Floating Configuration Button */}
-          <button
-            className="floating-config-button"
-            onClick={() => setIsDrawerOpen(true)}
-            aria-label="Abrir configurações"
-          >
-            <span className="config-button-icon">⚙️</span>
-            <span className="config-button-text">CONFIG</span>
-          </button>
-
-          {/* Configuration Drawer */}
-          <ConfigPanel
-            isOpen={isDrawerOpen}
-            onClose={() => setIsDrawerOpen(false)}
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function PDFPreviewPage() {
-  const { pdfId } = useParams();
-
-  return (
-    <PdfConfigProvider pdfId={pdfId}>
-      <PDFPreviewContent />
-    </PdfConfigProvider>
-  );
+  return null;
 }
 
 export default PDFPreviewPage;
