@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import { uploadProfilePicture, updateUserPhotoUrl } from "../firebase";
+import { updateUserProfilePicture } from "../services/api";
 import Header from "../components/Header";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
@@ -11,6 +13,8 @@ function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const fileInputRef = useRef(null);
 
   const {
     register,
@@ -59,6 +63,51 @@ function ProfilePage() {
     setSuccessMessage("");
   };
 
+  const handleAvatarClick = () => {
+    if (!uploadingAvatar) {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    setUploadingAvatar(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      // Upload image to Firebase Storage
+      const photoUrl = await uploadProfilePicture(file, user.uid);
+
+      // Update user's photoUrl in Firebase Auth
+      await updateUserPhotoUrl(user, photoUrl);
+
+      // Get user token for backend API call
+      const token = await user.getIdToken();
+
+      // Update photoUrl in backend users collection
+      await updateUserProfilePicture(photoUrl, token);
+
+      setSuccessMessage("Foto de perfil atualizada com sucesso!");
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      setErrorMessage(
+        error.message || "Erro ao atualizar foto de perfil. Tente novamente.",
+      );
+    } finally {
+      setUploadingAvatar(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
+
   return (
     <div className="profile-container">
       {/* Top Navigation Bar */}
@@ -69,10 +118,22 @@ function ProfilePage() {
         <div className="profile-card">
           {/* Header */}
           <div className="profile-header">
-            <div className="profile-avatar-container">
-              {user?.photoURL ? (
+            <div
+              className={`profile-avatar-container ${uploadingAvatar ? "uploading" : ""}`}
+              onClick={handleAvatarClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleAvatarClick();
+                }
+              }}
+              aria-label="Clique para alterar foto de perfil"
+            >
+              {userData?.photoUrl ? (
                 <img
-                  src={user.photoURL}
+                  src={userData.photoUrl}
                   alt={user.displayName || "User"}
                   className="profile-avatar"
                 />
@@ -96,7 +157,38 @@ function ProfilePage() {
                   </svg>
                 </div>
               )}
+              {uploadingAvatar && (
+                <div className="profile-avatar-overlay">
+                  <div className="profile-avatar-spinner"></div>
+                </div>
+              )}
+              <div className="profile-avatar-edit-hint">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              aria-label="Selecionar foto de perfil"
+            />
             <h1 className="profile-title">Meu Perfil</h1>
             <p className="profile-subtitle">
               Gerencie suas informações pessoais

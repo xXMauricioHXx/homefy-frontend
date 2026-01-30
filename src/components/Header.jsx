@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Header.css";
 
 function Header() {
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -46,9 +46,9 @@ function Header() {
                 className="header-user-badge"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                {user.photoURL && (
+                {userData.photoUrl && (
                   <img
-                    src={user.photoURL}
+                    src={userData.photoUrl}
                     alt={user.displayName || "User"}
                     className="header-user-avatar-small"
                   />

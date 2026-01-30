@@ -32,6 +32,7 @@ export function AuthProvider({ children }) {
       const data = await fetchUserById(token);
 
       if (data) {
+        console.log("User data fetched:", data);
         setUserData(data);
         setShowUserDataModal(false);
       } else {

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, updateProfile } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Firebase configuration from environment variables
 // See .env.example for required variables
@@ -19,7 +20,70 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
 
+// Initialize Firebase Storage
+export const storage = getStorage(app);
+
 // Initialize Google Auth Provider
 export const googleProvider = new GoogleAuthProvider();
+
+/**
+ * Upload profile picture to Firebase Storage
+ * @param {File} file - The image file to upload
+ * @param {string} userId - The user's ID
+ * @returns {Promise<string>} The download URL of the uploaded image
+ */
+export async function uploadProfilePicture(file, userId) {
+  if (!file) {
+    throw new Error("No file provided");
+  }
+
+  // Validate file type
+  const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+  if (!validTypes.includes(file.type)) {
+    throw new Error(
+      "Invalid file type. Please upload a JPG, PNG, or WebP image.",
+    );
+  }
+
+  // Validate file size (max 5MB)
+  const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+  if (file.size > maxSize) {
+    throw new Error(
+      "File size too large. Please upload an image smaller than 5MB.",
+    );
+  }
+
+  // Create a reference to the storage location
+  const timestamp = Date.now();
+  const fileExtension = file.name.split(".").pop();
+  const storageRef = ref(
+    storage,
+    `profile-pictures/${userId}/${timestamp}.${fileExtension}`,
+  );
+
+  // Upload the file
+  const snapshot = await uploadBytes(storageRef, file);
+
+  // Get the download URL
+  const downloadURL = await getDownloadURL(snapshot.ref);
+
+  return downloadURL;
+}
+
+/**
+ * Update user's photoUrl in Firebase Auth
+ * @param {Object} user - The Firebase user object
+ * @param {string} photoUrl - The new photo URL
+ * @returns {Promise<void>}
+ */
+export async function updateUserPhotoUrl(user, photoUrl) {
+  if (!user) {
+    throw new Error("No user provided");
+  }
+
+  await updateProfile(user, {
+    photoUrl,
+  });
+}
 
 export default app;

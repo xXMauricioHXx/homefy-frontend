@@ -166,6 +166,7 @@ export async function fetchUserById(token) {
     }
 
     const data = await response.json();
+
     return data;
   } catch (error) {
     console.error("Error fetching user by ID:", error);
@@ -254,6 +255,34 @@ export async function updatePdfConfig(pdfId, config, token) {
     return data;
   } catch (error) {
     console.error("Error updating PDF config:", error);
+    throw error;
+  }
+}
+
+export async function updateUserProfilePicture(photoUrl, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-updateUserPhoto`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({ photoUrl }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating user profile picture:", error);
     throw error;
   }
 }

@@ -8,7 +8,7 @@ function SummaryPage({ property, colors }) {
   const agentName = userData?.name || user?.displayName || "Corretor";
   const agentEmail = userData?.email || user?.email || "contato@exemplo.com";
   const agentPhone = userData?.phone || "(00) 00000-0000";
-  const agentPhoto = user?.photoURL || null;
+  const agentPhoto = userData?.photoUrl || user?.photoUrl || null;
 
   return (
     <div
