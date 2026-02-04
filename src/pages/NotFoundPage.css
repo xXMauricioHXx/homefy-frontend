@@ -1,0 +1,247 @@
+/* 404 Page Styles */
+.notfound-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+}
+
+/* Animated Background */
+.notfound-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.notfound-background .gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.2;
+  animation: float 20s ease-in-out infinite;
+}
+
+.notfound-background .orb-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--gradient-primary);
+  top: -250px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.notfound-background .orb-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--gradient-secondary);
+  bottom: -200px;
+  left: -100px;
+  animation-delay: 7s;
+}
+
+.notfound-background .orb-3 {
+  width: 350px;
+  height: 350px;
+  background: var(--gradient-accent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 14s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* Main Content */
+.notfound-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Illustration */
+.notfound-illustration {
+  position: relative;
+  margin-bottom: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.05em;
+  animation: slideIn 0.6s ease-out;
+  text-shadow: 0 4px 20px rgba(237, 99, 37, 0.2);
+}
+
+.error-icon {
+  animation: slideIn 0.6s ease-out 0.2s backwards;
+}
+
+.rotating-circle {
+  animation: rotate 20s linear infinite;
+  transform-origin: center;
+}
+
+.clock-hand {
+  animation: tick 2s ease-in-out infinite;
+  transform-origin: 60px 60px;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tick {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+}
+
+/* Text */
+.notfound-text {
+  margin-bottom: var(--spacing-2xl);
+  animation: fadeIn 0.8s ease-out 0.3s backwards;
+}
+
+.notfound-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.notfound-description {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Actions */
+.notfound-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+  animation: fadeIn 0.8s ease-out 0.4s backwards;
+}
+
+.notfound-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Help Text */
+.notfound-help {
+  animation: fadeIn 0.8s ease-out 0.5s backwards;
+}
+
+.help-text {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notfound-content {
+    padding: var(--spacing-md);
+  }
+
+  .error-code {
+    font-size: 6rem;
+  }
+
+  .notfound-title {
+    font-size: 2rem;
+  }
+
+  .notfound-description {
+    font-size: 1rem;
+  }
+
+  .error-icon svg {
+    width: 100px;
+    height: 100px;
+  }
+
+  .notfound-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .notfound-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-code {
+    font-size: 4.5rem;
+  }
+
+  .notfound-title {
+    font-size: 1.75rem;
+  }
+
+  .notfound-description {
+    font-size: 0.95rem;
+  }
+
+  .error-icon svg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .notfound-background .orb-1,
+  .notfound-background .orb-2,
+  .notfound-background .orb-3 {
+    width: 300px;
+    height: 300px;
+  }
+}
