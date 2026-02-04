@@ -9,6 +9,7 @@ import Modal from "../components/Modal";
 import Stepper from "../components/Stepper";
 import ImageSelectionStep from "../components/ImageSelectionStep";
 import DescriptionStep from "../components/DescriptionStep";
+import { showErrorToast } from "../components/Toast";
 import "./HomePage.css";
 
 function HomePage() {
@@ -129,7 +130,16 @@ function HomePage() {
         }, 100);
       } catch (err) {
         console.error("Error processing images:", err);
-        setError("Erro ao processar imagens. Por favor, tente novamente.");
+
+        // Check if error is due to no credits available
+        if (err.code === "NO_CREDITS_AVAILABLE") {
+          showErrorToast("Créditos insuficientes.");
+          // Close modal when credits are not available
+          handleModalClose();
+        } else {
+          setError("Erro ao processar imagens. Por favor, tente novamente.");
+        }
+
         setIsProcessing(false);
       }
     }
@@ -274,7 +284,9 @@ function HomePage() {
                   <ImageSelectionStep
                     images={propertyData.data.property?.gallery || []}
                     onSelectionChange={handleImageSelectionChange}
-                    maxSelection={5}
+                    maxSelection={parseInt(
+                      import.meta.env.VITE_MAX_IMAGES_PER_PDF || "10",
+                    )}
                   />
                 ),
               },

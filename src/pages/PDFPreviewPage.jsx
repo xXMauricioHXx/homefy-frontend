@@ -239,8 +239,36 @@ function PDFPreviewPage() {
 
   // Main content with PdfConfigProvider initialized with config from API
   if (data) {
+    // Merge property data into config if not already set
+    const initialConfig = {
+      ...data.config,
+      propertyData: {
+        condominium:
+          data.config?.propertyData?.condominium ||
+          data.property.condominium ||
+          "",
+        parking:
+          data.config?.propertyData?.parking || data.property.parking || "",
+        iptu: data.config?.propertyData?.iptu || data.property.iptu || "",
+        area: data.config?.propertyData?.area || data.property.area || "",
+        price: data.config?.propertyData?.price || data.property.price || "",
+        pricePerSqm:
+          data.config?.propertyData?.pricePerSqm ||
+          data.property.pricePerSqm ||
+          "",
+        features:
+          data.config?.propertyData?.features?.length > 0
+            ? data.config.propertyData.features
+            : data.property.features || [],
+        infrastructures:
+          data.config?.propertyData?.infrastructures?.length > 0
+            ? data.config.propertyData.infrastructures
+            : data.property.infrastructures || [],
+      },
+    };
+
     return (
-      <PdfConfigProvider pdfId={pdfId} initialConfig={data.config}>
+      <PdfConfigProvider pdfId={pdfId} initialConfig={initialConfig}>
         <PDFPreviewContent data={data} />
       </PdfConfigProvider>
     );

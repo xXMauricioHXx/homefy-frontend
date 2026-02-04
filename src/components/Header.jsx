@@ -40,13 +40,36 @@ function Header() {
         </div>
 
         <div className="header-navbar-actions">
+          {user && userData && (
+            <div className="header-credits-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M12 6V12L16 14"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className="header-credits-count">
+                {userData?.plan?.credits || 0}
+              </span>
+              <span className="header-credits-label">créditos</span>
+            </div>
+          )}
           {user && (
             <div className="header-user-dropdown" ref={dropdownRef}>
               <button
                 className="header-user-badge"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                {userData.photoUrl && (
+                {userData?.photoUrl && (
                   <img
                     src={userData.photoUrl}
                     alt={user.displayName || "User"}
@@ -99,6 +122,24 @@ function Header() {
                       />
                     </svg>
                     Perfil
+                  </button>
+                  <button
+                    className="header-dropdown-item"
+                    onClick={() => {
+                      navigate("/subscription");
+                      setIsDropdownOpen(false);
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path
+                        d="M10 2L12.545 7.13L18 7.91L14 11.82L14.91 17.26L10 14.61L5.09 17.26L6 11.82L2 7.91L7.455 7.13L10 2Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Meu Plano
                   </button>
                   <button
                     className="header-dropdown-item logout"

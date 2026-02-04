@@ -1,8 +1,27 @@
 import PropTypes from "prop-types";
+import { usePdfConfig } from "../../contexts/PdfConfigContext";
 import { useUser } from "../../hooks/useUser";
 
 function SummaryPage({ property, colors }) {
   const { userData, user } = useUser();
+  const { config } = usePdfConfig();
+
+  // Use configurable property data with fallback to original property values
+  const displayData = {
+    area: config.propertyData.area || property.area,
+    condominium: config.propertyData.condominium || property.condominium,
+    parking: config.propertyData.parking || property.parking,
+    iptu: config.propertyData.iptu || property.iptu,
+    price: config.propertyData.price || property.price,
+    features:
+      config.propertyData.features.length > 0
+        ? config.propertyData.features
+        : property.features,
+    infrastructures:
+      config.propertyData.infrastructures.length > 0
+        ? config.propertyData.infrastructures
+        : property.infrastructures,
+  };
 
   // Use user data from context, with fallback to default values
   const agentName = userData?.name || user?.displayName || "Corretor";
@@ -26,13 +45,13 @@ function SummaryPage({ property, colors }) {
         </h2>
 
         <div className="room-desc flex">
-          {property.features && property.features.length > 0 && (
+          {displayData.features && displayData.features.length > 0 && (
             <div>
               <h3 style={{ color: colors?.secondary || "#d45520" }}>
                 Características
               </h3>
               <ul className="room-features">
-                {property.features.map((item, index) => (
+                {displayData.features.map((item, index) => (
                   <li style={{ color: "white" }} key={index}>
                     <svg
                       className="check-icon"
@@ -48,27 +67,28 @@ function SummaryPage({ property, colors }) {
             </div>
           )}
 
-          {property.infrastructures && property.infrastructures.length > 0 && (
-            <div>
-              <h3 style={{ color: colors?.secondary || "#d45520" }}>
-                Infraestrutura
-              </h3>
-              <ul className="room-features">
-                {property.infrastructures.map((item, index) => (
-                  <li style={{ color: "white" }} key={index}>
-                    <svg
-                      className="check-icon"
-                      viewBox="0 0 24 24"
-                      style={{ fill: colors?.secondary || "#d45520" }}
-                    >
-                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                    </svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {displayData.infrastructures &&
+            displayData.infrastructures.length > 0 && (
+              <div>
+                <h3 style={{ color: colors?.secondary || "#d45520" }}>
+                  Infraestrutura
+                </h3>
+                <ul className="room-features">
+                  {displayData.infrastructures.map((item, index) => (
+                    <li style={{ color: "white" }} key={index}>
+                      <svg
+                        className="check-icon"
+                        viewBox="0 0 24 24"
+                        style={{ fill: colors?.secondary || "#d45520" }}
+                      >
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
         </div>
 
         <br />
@@ -79,25 +99,25 @@ function SummaryPage({ property, colors }) {
               <small style={{ color: colors?.secondary || "#d45520" }}>
                 Área Total
               </small>
-              <div>{property.area} m²</div>
+              <div>{displayData.area} m²</div>
             </div>
             <div className="summary-item">
               <small style={{ color: colors?.secondary || "#d45520" }}>
                 Condomínio
               </small>
-              <div>{property.condominium}</div>
+              <div>{displayData.condominium}</div>
             </div>
             <div className="summary-item">
               <small style={{ color: colors?.secondary || "#d45520" }}>
                 Vagas
               </small>
-              <div>{property.parking}</div>
+              <div>{displayData.parking}</div>
             </div>
             <div className="summary-item">
               <small style={{ color: colors?.secondary || "#d45520" }}>
                 IPTU
               </small>
-              <div>{property.iptu}</div>
+              <div>{displayData.iptu}</div>
             </div>
           </div>
 
@@ -109,7 +129,7 @@ function SummaryPage({ property, colors }) {
               className="price-tag"
               style={{ color: colors?.secondary || "#d45520" }}
             >
-              {property.price}
+              {displayData.price}
             </span>
           </div>
         </div>

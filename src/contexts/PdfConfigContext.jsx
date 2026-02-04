@@ -18,6 +18,16 @@ const DEFAULT_CONFIG = {
     mainImage: null,
   },
   showExclusivityTag: true,
+  propertyData: {
+    condominium: "",
+    parking: "",
+    iptu: "",
+    area: "",
+    price: "",
+    pricePerSqm: "",
+    features: [],
+    infrastructures: [],
+  },
 };
 
 export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
@@ -56,6 +66,60 @@ export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
     setHasChanges(true);
   };
 
+  const updatePropertyData = (data) => {
+    setConfig((prev) => ({
+      ...prev,
+      propertyData: { ...prev.propertyData, ...data },
+    }));
+    setHasChanges(true);
+  };
+
+  const addFeature = (feature) => {
+    setConfig((prev) => ({
+      ...prev,
+      propertyData: {
+        ...prev.propertyData,
+        features: [...prev.propertyData.features, feature],
+      },
+    }));
+    setHasChanges(true);
+  };
+
+  const removeFeature = (index) => {
+    setConfig((prev) => ({
+      ...prev,
+      propertyData: {
+        ...prev.propertyData,
+        features: prev.propertyData.features.filter((_, i) => i !== index),
+      },
+    }));
+    setHasChanges(true);
+  };
+
+  const addInfrastructure = (infrastructure) => {
+    setConfig((prev) => ({
+      ...prev,
+      propertyData: {
+        ...prev.propertyData,
+        infrastructures: [...prev.propertyData.infrastructures, infrastructure],
+      },
+    }));
+    setHasChanges(true);
+  };
+
+  const removeInfrastructure = (index) => {
+    setConfig((prev) => ({
+      ...prev,
+      propertyData: {
+        ...prev.propertyData,
+        infrastructures: prev.propertyData.infrastructures.filter(
+          (_, i) => i !== index,
+        ),
+      },
+    }));
+    setHasChanges(true);
+  };
+
   const resetConfig = () => {
     setConfig(DEFAULT_CONFIG);
     setHasChanges(true);
@@ -84,6 +148,11 @@ export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
     updateTexts,
     updateImages,
     updateShowExclusivityTag,
+    updatePropertyData,
+    addFeature,
+    removeFeature,
+    addInfrastructure,
+    removeInfrastructure,
     resetConfig,
     saveConfig,
   };
@@ -111,6 +180,16 @@ PdfConfigProvider.propTypes = {
       mainImage: PropTypes.string,
     }),
     showExclusivityTag: PropTypes.bool,
+    propertyData: PropTypes.shape({
+      condominium: PropTypes.string,
+      parking: PropTypes.string,
+      iptu: PropTypes.string,
+      area: PropTypes.string,
+      price: PropTypes.string,
+      pricePerSqm: PropTypes.string,
+      features: PropTypes.arrayOf(PropTypes.string),
+      infrastructures: PropTypes.arrayOf(PropTypes.string),
+    }),
   }),
 };
 

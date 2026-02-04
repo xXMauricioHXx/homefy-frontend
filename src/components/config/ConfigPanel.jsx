@@ -2,6 +2,7 @@ import { usePdfConfig } from "../../contexts/PdfConfigContext";
 import { useAuth } from "../../contexts/AuthContext";
 import Button from "../Button";
 import ColorConfigSection from "./sections/ColorConfigSection";
+import SummaryConfigSection from "./sections/SummaryConfigSection";
 import "./ConfigPanel.css";
 
 function ConfigPanel({ isOpen, onClose }) {
@@ -56,6 +57,7 @@ function ConfigPanel({ isOpen, onClose }) {
 
         <div className="config-panel-sections">
           <ColorConfigSection />
+          <SummaryConfigSection />
           {/* Future sections will be added here */}
           {/* <TextConfigSection /> */}
           {/* <ImageOrderSection /> */}

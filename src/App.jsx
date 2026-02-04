@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserDataModal from "./components/UserDataModal";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
+import SubscriptionPage from "./pages/SubscriptionPage";
 import PDFPreviewPage from "./pages/PDFPreviewPage";
 import "./App.css";
 
@@ -32,6 +35,14 @@ function AppContent() {
           }
         />
         <Route
+          path="/subscription"
+          element={
+            <ProtectedRoute>
+              <SubscriptionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/pdf-preview/:pdfId"
           element={
             <ProtectedRoute>
@@ -44,6 +55,9 @@ function AppContent() {
 
       {/* Global User Data Modal */}
       <UserDataModal isOpen={showUserDataModal} />
+
+      {/* Toast Notifications */}
+      <ToastContainer />
     </>
   );
 }

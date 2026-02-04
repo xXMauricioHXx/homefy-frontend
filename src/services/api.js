@@ -130,6 +130,20 @@ export const createPdf = async (pdfData, token) => {
     });
 
     if (!response.ok) {
+      // Try to parse error response
+      try {
+        const errorData = await response.json();
+        if (errorData.code === "NO_CREDITS_AVAILABLE") {
+          const error = new Error(errorData.error || "No credits available");
+          error.code = errorData.code;
+          throw error;
+        }
+      } catch (parseError) {
+        // If parsing fails, throw generic error
+        if (parseError.code === "NO_CREDITS_AVAILABLE") {
+          throw parseError;
+        }
+      }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 

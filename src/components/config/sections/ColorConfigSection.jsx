@@ -35,22 +35,22 @@ function ColorConfigSection() {
         <div className="color-pickers">
           <ColorPicker
             label="Cor Primária"
-            value={config.colors.primary}
+            value={config.colors?.primary}
             onChange={handlePrimaryColorChange}
           />
           <ColorPicker
             label="Cor Secundária"
-            value={config.colors.secondary}
+            value={config.colors?.secondary}
             onChange={handleSecondaryColorChange}
           />
           <ColorPicker
             label="Cor do Título"
-            value={config.colors.titleColor}
+            value={config.colors?.titleColor}
             onChange={handleTitleColorChange}
           />
           <ColorPicker
             label="Fundo do Resumo"
-            value={config.colors.summaryBackground}
+            value={config.colors?.summaryBackground}
             onChange={handleSummaryBackgroundChange}
           />
         </div>

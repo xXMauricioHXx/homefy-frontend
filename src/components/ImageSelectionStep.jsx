@@ -2,7 +2,11 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import "./ImageSelectionStep.css";
 
-function ImageSelectionStep({ images, onSelectionChange, maxSelection = 5 }) {
+function ImageSelectionStep({
+  images,
+  onSelectionChange,
+  maxSelection = parseInt(import.meta.env.VITE_MAX_IMAGES_PER_PDF || "10"),
+}) {
   const [selectedImages, setSelectedImages] = useState([]);
 
   // Notify parent component when selection changes
