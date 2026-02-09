@@ -115,6 +115,7 @@ export function AuthProvider({ children }) {
         showUserDataModal,
         fetchUserData,
         updateUserData,
+        setUserData,
       }}
     >
       {children}

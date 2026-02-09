@@ -9,7 +9,8 @@ import Button from "../components/Button";
 import "./ProfilePage.css";
 
 function ProfilePage() {
-  const { user, userData, updateUserData, userDataLoading } = useAuth();
+  const { user, userData, updateUserData, userDataLoading, setUserData } =
+    useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -89,6 +90,12 @@ function ProfilePage() {
 
       // Update photoUrl in backend users collection
       await updateUserProfilePicture(photoUrl, token);
+
+      // Update only the photoUrl property, preserving other user data
+      setUserData((prevData) => ({
+        ...prevData,
+        photoUrl: photoUrl,
+      }));
 
       setSuccessMessage("Foto de perfil atualizada com sucesso!");
 

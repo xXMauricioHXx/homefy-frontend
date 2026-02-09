@@ -1,6 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, updateProfile } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
 
 // Firebase configuration from environment variables
 // See .env.example for required variables
@@ -51,6 +58,27 @@ export async function uploadProfilePicture(file, userId) {
     throw new Error(
       "File size too large. Please upload an image smaller than 5MB.",
     );
+  }
+
+  // Delete existing profile pictures for this user
+  try {
+    const userProfilePicturesRef = ref(storage, `profile-pictures/${userId}`);
+    const existingFiles = await listAll(userProfilePicturesRef);
+
+    // Delete all existing files in the user's profile pictures folder
+    const deletePromises = existingFiles.items.map((fileRef) =>
+      deleteObject(fileRef),
+    );
+
+    if (deletePromises.length > 0) {
+      await Promise.all(deletePromises);
+      console.log(
+        `Deleted ${deletePromises.length} existing profile picture(s) for user ${userId}`,
+      );
+    }
+  } catch (error) {
+    // If the folder doesn't exist or there's an error, log it but continue with upload
+    console.warn("Error deleting existing profile pictures:", error);
   }
 
   // Create a reference to the storage location
