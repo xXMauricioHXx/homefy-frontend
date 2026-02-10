@@ -315,6 +315,105 @@
 }
 
 /* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+/* Tablets e telas médias (até 1024px) */
+@media (max-width: 1024px) {
+  .pdf-page {
+    width: 190mm;
+    height: 268.5mm;
+    transform-origin: top center;
+  }
+
+  .pdf-container {
+    padding: 30px 0;
+    gap: 15px;
+  }
+}
+
+/* Tablets pequenos e telas menores (até 768px) */
+@media (max-width: 768px) {
+  .pdf-page {
+    width: 170mm;
+    height: 240mm;
+  }
+
+  .pdf-container {
+    padding: 20px 0;
+    gap: 10px;
+  }
+
+  /* Ajustar tamanhos de fonte para melhor legibilidade */
+  .cover-page h1 {
+    font-size: 32px;
+  }
+
+  .cover-page p {
+    font-size: 16px;
+  }
+
+  .room-title {
+    font-size: 24px;
+  }
+
+  .final-page h2 {
+    font-size: 36px;
+  }
+
+  .price-tag {
+    font-size: 38px;
+  }
+}
+
+/* Telas pequenas (até 480px) */
+@media (max-width: 480px) {
+  .pdf-page {
+    width: 150mm;
+    height: 212mm;
+  }
+
+  .pdf-container {
+    padding: 15px 0;
+    gap: 8px;
+  }
+
+  .cover-page h1 {
+    font-size: 28px;
+  }
+
+  .cover-page p {
+    font-size: 14px;
+  }
+
+  .room-title {
+    font-size: 20px;
+  }
+
+  .final-page {
+    padding: 30px;
+  }
+
+  .final-page h2 {
+    font-size: 32px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .price-tag {
+    font-size: 34px;
+  }
+
+  .agent-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* =========================
    IMPRESSÃO
    ========================= */
 @media print {
@@ -334,6 +433,10 @@
     box-shadow: none;
     margin: 0;
     page-break-after: always;
+    /* Restore full A4 size for printing */
+    width: 210mm !important;
+    height: 297mm !important;
+    transform: none !important;
   }
   .pdf-page:last-child {
     page-break-after: auto;
@@ -341,5 +444,35 @@
 
   .gallery-page .gallery-content {
     padding: 10mm;
+  }
+
+  /* Restore original font sizes for print */
+  .cover-page h1 {
+    font-size: 36px !important;
+  }
+
+  .cover-page p {
+    font-size: 18px !important;
+  }
+
+  .room-title {
+    font-size: 28px !important;
+  }
+
+  .final-page h2 {
+    font-size: 40px !important;
+  }
+
+  .price-tag {
+    font-size: 42px !important;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .agent-card {
+    flex-direction: row !important;
+    text-align: left !important;
   }
 }

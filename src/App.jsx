@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import PDFPreviewPage from "./pages/PDFPreviewPage";
+import PDFPreviewMobilePage from "./pages/PDFPreviewMobilePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import "./App.css";
 
@@ -48,6 +49,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <PDFPreviewPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pdf-preview-mobile/:pdfId"
+          element={
+            <ProtectedRoute>
+              <PDFPreviewMobilePage />
             </ProtectedRoute>
           }
         />

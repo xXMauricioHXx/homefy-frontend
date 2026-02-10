@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
 import { fetchPdfById } from "../services/api";
+import { generatePDFDownload } from "../utils/pdfGenerator";
 import Button from "../components/Button";
 import ConfigPanel from "../components/config/ConfigPanel";
 import FloatingConfigButtons from "../components/config/FloatingConfigButtons";
@@ -34,6 +35,16 @@ function PDFPreviewContent({ data }) {
     setTimeout(() => setActiveSection(null), 300);
   };
 
+  const handleDownloadPDF = async () => {
+    try {
+      const propertyName = `${data.brand.name}_${data.brand.location}`;
+      await generatePDFDownload(propertyName);
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      alert("Erro ao gerar PDF. Por favor, tente novamente.");
+    }
+  };
+
   return (
     <div className="pdf-preview-container">
       {/* Top Navigation Bar - Fixed for navigation */}
@@ -51,8 +62,8 @@ function PDFPreviewContent({ data }) {
               Voltar
             </Button>
             {data && (
-              <Button variant="primary" onClick={() => window.print()}>
-                Imprimir PDF
+              <Button variant="primary" onClick={handleDownloadPDF}>
+                Baixar PDF
               </Button>
             )}
           </div>
@@ -123,6 +134,32 @@ function PDFPreviewPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Check if user is on mobile device and redirect to mobile version
+    const isMobileDevice = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = [
+        "android",
+        "webos",
+        "iphone",
+        "ipad",
+        "ipod",
+        "blackberry",
+        "windows phone",
+      ];
+      return (
+        mobileKeywords.some((keyword) => userAgent.includes(keyword)) ||
+        window.innerWidth < 768
+      );
+    };
+
+    if (isMobileDevice()) {
+      navigate(`/pdf-preview-mobile/${pdfId}`, {
+        replace: true,
+        state: location.state,
+      });
+      return;
+    }
+
     const loadPdfData = async () => {
       if (!pdfId || !user) {
         navigate("/");
@@ -144,7 +181,7 @@ function PDFPreviewPage() {
     };
 
     loadPdfData();
-  }, [pdfId, user, navigate]);
+  }, [pdfId, user, navigate, location.state]);
 
   // Loading State
   if (loading) {

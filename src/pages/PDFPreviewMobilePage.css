@@ -1,0 +1,348 @@
+/* PDF Preview Mobile Page Styles */
+.pdf-preview-mobile-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-primary);
+  overflow: hidden;
+}
+
+/* Mobile Navbar */
+.mobile-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-navbar-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  max-width: 100%;
+}
+
+.mobile-back-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-back-button:active {
+  transform: scale(0.95);
+  background: var(--color-bg-tertiary);
+}
+
+.mobile-navbar-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-page-indicator {
+  min-width: 50px;
+  text-align: right;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* PDF Content */
+.mobile-pdf-content {
+  margin-top: 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-pdf-page-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem;
+}
+
+/* Override PDF page styles for mobile */
+.mobile-pdf-page-wrapper .pdf-page {
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mobile-pdf-page-wrapper .cover-page .cover-image {
+  height: 60vh;
+  max-height: 500px;
+}
+
+.mobile-pdf-page-wrapper .cover-page .cover-content {
+  height: auto;
+  min-height: 200px;
+  padding: 2rem 1.5rem;
+}
+
+.mobile-pdf-page-wrapper .cover-page h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.mobile-pdf-page-wrapper .cover-page p {
+  font-size: 1rem;
+}
+
+.mobile-pdf-page-wrapper .room-page {
+  padding: 0;
+}
+
+.mobile-pdf-page-wrapper .room-header {
+  padding: 1rem 1.5rem;
+}
+
+.mobile-pdf-page-wrapper .room-hero {
+  height: 50vh;
+  max-height: 400px;
+}
+
+.mobile-pdf-page-wrapper .room-body {
+  padding: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.mobile-pdf-page-wrapper .gallery-page .gallery-content {
+  padding: 1rem;
+  min-height: 70vh;
+}
+
+.mobile-pdf-page-wrapper .gallery-page .gallery-img {
+  border-radius: 8px;
+}
+
+.mobile-pdf-page-wrapper .final-page {
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+}
+
+.mobile-pdf-page-wrapper .final-page h2 {
+  font-size: 2rem;
+}
+
+.mobile-pdf-page-wrapper .summary-grid {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.mobile-pdf-page-wrapper .agent-card {
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.mobile-pdf-page-wrapper .agent-img {
+  width: 60px;
+  height: 60px;
+}
+
+/* Navigation Controls */
+.mobile-navigation-controls {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.mobile-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.mobile-nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.mobile-nav-button:not(:disabled):active {
+  transform: scale(0.95);
+  background: var(--color-accent-primary);
+  color: white;
+}
+
+.mobile-nav-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Page Dots */
+.mobile-page-dots {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  overflow-x: auto;
+  padding: 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.page-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-bg-tertiary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.page-dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: var(--color-accent-primary);
+}
+
+/* Download Button */
+.mobile-download-button {
+  position: fixed;
+  bottom: 100px;
+  right: 1rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ed6325 0%, #d45520 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(237, 99, 37, 0.3);
+  transition: all 0.3s ease;
+  z-index: 99;
+}
+
+.mobile-download-button:active {
+  transform: scale(0.95);
+}
+
+.mobile-download-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Loading State */
+.mobile-loading-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.mobile-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(237, 99, 37, 0.1);
+  border-top-color: var(--color-accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mobile-loading-container p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+}
+
+/* Error State */
+.mobile-error-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.mobile-error-text {
+  color: var(--color-error);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 375px) {
+  .mobile-nav-button {
+    min-width: 80px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .mobile-nav-button span {
+    display: none;
+  }
+
+  .mobile-pdf-page-wrapper {
+    padding: 0.5rem;
+  }
+
+  .mobile-pdf-page-wrapper .cover-page .cover-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .mobile-pdf-page-wrapper .final-page {
+    padding: 1.5rem 1rem;
+  }
+}
