@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import "./ColorPicker.css";
 
-function ColorPicker({ label, value, onChange }) {
+function ColorPicker({ label, value = "#000000", onChange }) {
   const [hexInput, setHexInput] = useState(value);
 
   const handleColorChange = (e) => {

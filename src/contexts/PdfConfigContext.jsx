@@ -31,7 +31,27 @@ const DEFAULT_CONFIG = {
 };
 
 export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
-  const [config, setConfig] = useState(initialConfig || DEFAULT_CONFIG);
+  // Deep merge initialConfig with DEFAULT_CONFIG to ensure all defaults are preserved
+  const mergedConfig = initialConfig
+    ? {
+        ...DEFAULT_CONFIG,
+        ...initialConfig,
+        colors: {
+          ...DEFAULT_CONFIG.colors,
+          ...(initialConfig.colors || {}),
+        },
+        propertyData: {
+          ...DEFAULT_CONFIG.propertyData,
+          ...(initialConfig.propertyData || {}),
+        },
+        images: {
+          ...DEFAULT_CONFIG.images,
+          ...(initialConfig.images || {}),
+        },
+      }
+    : DEFAULT_CONFIG;
+
+  const [config, setConfig] = useState(mergedConfig);
   const [hasChanges, setHasChanges] = useState(false);
 
   const updateColors = (colors) => {
