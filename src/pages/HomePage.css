@@ -352,7 +352,7 @@
   }
 
   .home-main {
-    padding: calc(70px + var(--spacing-lg)) var(--spacing-md) var(--spacing-md);
+    padding: calc(0px + var(--spacing-lg)) var(--spacing-md) var(--spacing-md);
   }
 }
 

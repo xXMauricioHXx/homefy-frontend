@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
       const data = await fetchUserById(token);
 
       if (data) {
-        console.log("User data fetched:", data);
         setUserData(data);
         setShowUserDataModal(false);
       } else {
@@ -40,7 +39,6 @@ export function AuthProvider({ children }) {
         setShowUserDataModal(true);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
       setUserDataError(error.message);
       // If there's an error, we might still want to show the modal
       // to allow the user to enter their data

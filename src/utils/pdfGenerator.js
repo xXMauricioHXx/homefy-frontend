@@ -57,8 +57,27 @@ export const generatePDFDownload = async (propertyName = "imovel") => {
     const timestamp = new Date().toISOString().split("T")[0];
     const filename = `${propertyName.replace(/\s+/g, "_")}_${timestamp}.pdf`;
 
-    // Save the PDF
-    pdf.save(filename);
+    // Use Blob method for better mobile browser compatibility
+    const pdfBlob = pdf.output("blob");
+
+    // Create a temporary anchor element
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(pdfBlob);
+
+    link.href = url;
+    link.download = filename;
+
+    // Append to body (required for Firefox)
+    document.body.appendChild(link);
+
+    // Trigger download
+    link.click();
+
+    // Clean up
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 100);
   } catch (error) {
     console.error("Error generating PDF:", error);
     throw error;
