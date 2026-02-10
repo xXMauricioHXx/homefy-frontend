@@ -272,7 +272,8 @@
 
   .config-panel,
   .config-panel-overlay,
-  .floating-config-button {
+  .floating-config-button,
+  .floating-config-buttons {
     display: none !important;
   }
 }

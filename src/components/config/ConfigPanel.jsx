@@ -5,7 +5,7 @@ import ColorConfigSection from "./sections/ColorConfigSection";
 import SummaryConfigSection from "./sections/SummaryConfigSection";
 import "./ConfigPanel.css";
 
-function ConfigPanel({ isOpen, onClose }) {
+function ConfigPanel({ isOpen, onClose, activeSection = null }) {
   const { hasChanges, resetConfig, saveConfig } = usePdfConfig();
   const { user } = useAuth();
 
@@ -31,6 +31,31 @@ function ConfigPanel({ isOpen, onClose }) {
     }
   };
 
+  // Determine which sections to show - now always show only active section when specified
+  const showColors = activeSection === "colors" || activeSection === null;
+  const showSummary = activeSection === "summary" || activeSection === null;
+
+  // Get panel title based on active section
+  const getPanelTitle = () => {
+    if (activeSection === "colors") return "Cores";
+    if (activeSection === "summary") return "Resumo";
+    return "Configurações";
+  };
+
+  // Get panel icon based on active section
+  const getPanelIcon = () => {
+    if (activeSection === "colors") return "🎨";
+    if (activeSection === "summary") return "📋";
+    return "⚙️";
+  };
+
+  // Get panel subtitle based on active section
+  const getPanelSubtitle = () => {
+    if (activeSection === "colors") return "Personalize as cores do seu PDF";
+    if (activeSection === "summary") return "Edite as informações do imóvel";
+    return "Personalize seu PDF de acordo com suas preferências";
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -40,8 +65,8 @@ function ConfigPanel({ isOpen, onClose }) {
       <aside className={`config-panel ${isOpen ? "config-panel-open" : ""}`}>
         <div className="config-panel-header">
           <h2 className="config-panel-title">
-            <span className="config-icon">⚙️</span>
-            Configurações
+            <span className="config-icon">{getPanelIcon()}</span>
+            {getPanelTitle()}
           </h2>
           <button
             className="config-panel-close"
@@ -51,13 +76,11 @@ function ConfigPanel({ isOpen, onClose }) {
             ✕
           </button>
         </div>
-        <p className="config-panel-subtitle">
-          Personalize seu PDF de acordo com suas preferências
-        </p>
+        <p className="config-panel-subtitle">{getPanelSubtitle()}</p>
 
         <div className="config-panel-sections">
-          <ColorConfigSection />
-          <SummaryConfigSection />
+          {showColors && <ColorConfigSection />}
+          {showSummary && <SummaryConfigSection />}
           {/* Future sections will be added here */}
           {/* <TextConfigSection /> */}
           {/* <ImageOrderSection /> */}

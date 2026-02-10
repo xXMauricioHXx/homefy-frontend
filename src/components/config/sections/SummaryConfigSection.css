@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-height: 500px;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 0.5rem;
@@ -122,8 +122,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 200px;
-  overflow-y: auto;
 }
 
 .config-list li {
@@ -174,25 +172,6 @@
   transform: scale(0.9);
 }
 
-/* Scrollbar styling for lists */
-.config-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.config-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-}
-
-.config-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-}
-
-.config-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
 /* Scrollbar styling for summary config content */
 .summary-config-content::-webkit-scrollbar {
   width: 6px;
@@ -210,4 +189,60 @@
 
 .summary-config-content::-webkit-scrollbar-thumb:hover {
   background: rgba(237, 99, 37, 0.5);
+}
+
+/* Mobile optimizations for better touch interactions */
+@media (max-width: 768px) {
+  .summary-config-content {
+    height: 100%;
+    padding-right: 0.25rem;
+  }
+
+  .config-field input {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .list-input-group input {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .add-button {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+  }
+
+  .config-list {
+    gap: 0.625rem;
+  }
+
+  .config-list li {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .remove-button {
+    width: 32px;
+    height: 32px;
+    font-size: 1.5rem;
+    border-radius: 6px;
+  }
+
+  .list-section h4 {
+    font-size: 1rem;
+  }
+
+  .summary-config-fields {
+    gap: 1.25rem;
+  }
+
+  .list-section {
+    gap: 1rem;
+  }
 }

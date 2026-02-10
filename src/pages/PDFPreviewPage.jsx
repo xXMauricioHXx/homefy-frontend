@@ -5,6 +5,7 @@ import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
 import { fetchPdfById } from "../services/api";
 import Button from "../components/Button";
 import ConfigPanel from "../components/config/ConfigPanel";
+import FloatingConfigButtons from "../components/config/FloatingConfigButtons";
 import CoverPage from "../components/pdf/CoverPage";
 import PropertyDescriptionPage from "../components/pdf/PropertyDescriptionPage";
 import GalleryPage from "../components/pdf/GalleryPage";
@@ -17,9 +18,21 @@ function PDFPreviewContent({ data }) {
   const location = useLocation();
   const { config } = usePdfConfig();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
 
   // Get selected images from navigation state (if any)
   const selectedImages = location.state?.selectedImages || [];
+
+  const handleSectionSelect = (sectionId) => {
+    setActiveSection(sectionId);
+    setIsDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+    // Reset active section after animation completes
+    setTimeout(() => setActiveSection(null), 300);
+  };
 
   return (
     <div className="pdf-preview-container">
@@ -86,19 +99,14 @@ function PDFPreviewContent({ data }) {
             <SummaryPage property={data.property} colors={config.colors} />
           </div>
 
-          {/* Floating Configuration Button */}
-          <button
-            className="floating-config-button"
-            onClick={() => setIsDrawerOpen(true)}
-            aria-label="Abrir configurações"
-          >
-            <span className="config-button-icon">⚙️</span>
-          </button>
+          {/* Floating Configuration Buttons - Now for all screen sizes */}
+          <FloatingConfigButtons onSectionSelect={handleSectionSelect} />
 
           {/* Configuration Drawer */}
           <ConfigPanel
             isOpen={isDrawerOpen}
-            onClose={() => setIsDrawerOpen(false)}
+            onClose={handleCloseDrawer}
+            activeSection={activeSection}
           />
         </div>
       )}
