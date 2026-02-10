@@ -7,6 +7,7 @@ import { generatePDFDownload } from "../utils/pdfGenerator";
 import Button from "../components/Button";
 import ConfigPanel from "../components/config/ConfigPanel";
 import FloatingConfigButtons from "../components/config/FloatingConfigButtons";
+import LoadingOverlay from "../components/LoadingOverlay";
 import CoverPage from "../components/pdf/CoverPage";
 import PropertyDescriptionPage from "../components/pdf/PropertyDescriptionPage";
 import GalleryPage from "../components/pdf/GalleryPage";
@@ -20,6 +21,7 @@ function PDFPreviewContent({ data }) {
   const { config } = usePdfConfig();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   // Get selected images from navigation state (if any)
   const selectedImages = location.state?.selectedImages || [];
@@ -36,17 +38,21 @@ function PDFPreviewContent({ data }) {
   };
 
   const handleDownloadPDF = async () => {
+    setIsGeneratingPDF(true);
     try {
       const propertyName = `${data.brand.name}_${data.brand.location}`;
       await generatePDFDownload(propertyName);
     } catch (error) {
       console.error("Failed to generate PDF:", error);
       alert("Erro ao gerar PDF. Por favor, tente novamente.");
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
 
   return (
     <div className="pdf-preview-container">
+      <LoadingOverlay isVisible={isGeneratingPDF} message="Gerando PDF..." />
       {/* Top Navigation Bar - Fixed for navigation */}
       <nav
         className="navbar"

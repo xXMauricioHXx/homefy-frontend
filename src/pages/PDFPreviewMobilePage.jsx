@@ -5,6 +5,7 @@ import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
 import { fetchPdfById } from "../services/api";
 import { generatePDFDownload } from "../utils/pdfGenerator";
 import Button from "../components/Button";
+import LoadingOverlay from "../components/LoadingOverlay";
 import CoverPage from "../components/pdf/CoverPage";
 import PropertyDescriptionPage from "../components/pdf/PropertyDescriptionPage";
 import GalleryPage from "../components/pdf/GalleryPage";
@@ -16,6 +17,7 @@ function PDFPreviewMobileContent({ data }) {
   const location = useLocation();
   const { config } = usePdfConfig();
   const [currentPage, setCurrentPage] = useState(0);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   // Get selected images from navigation state (if any)
   const selectedImages = location.state?.selectedImages || [];
@@ -38,12 +40,15 @@ function PDFPreviewMobileContent({ data }) {
   };
 
   const handleDownloadPDF = async () => {
+    setIsGeneratingPDF(true);
     try {
       const propertyName = `${data.brand.name}_${data.brand.location}`;
       await generatePDFDownload(propertyName);
     } catch (error) {
       console.error("Failed to generate PDF:", error);
       alert("Erro ao gerar PDF. Por favor, tente novamente.");
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
 
@@ -86,7 +91,8 @@ function PDFPreviewMobileContent({ data }) {
   };
 
   return (
-    <div className="pdf-preview-mobile-container">
+    <div className="mobile-pdf-preview-container">
+      <LoadingOverlay isVisible={isGeneratingPDF} message="Gerando PDF..." />
       {/* Top Navigation Bar */}
       <nav className="mobile-navbar">
         <div className="mobile-navbar-content">

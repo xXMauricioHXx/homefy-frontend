@@ -476,3 +476,81 @@
     text-align: left !important;
   }
 }
+
+/* =========================
+   PDF GENERATION CONTAINER OVERRIDES
+   Force desktop layout to prevent content overflow
+   ========================= */
+/* Override mobile media queries for PDF generation */
+.pdf-container .pdf-page {
+  width: 210mm !important;
+  height: 297mm !important;
+  font-size: 14px !important;
+}
+
+.pdf-container .final-page {
+  padding: 30px !important;
+}
+
+.pdf-container .final-page h2 {
+  font-size: 28px !important;
+  margin-bottom: 15px !important;
+}
+
+.pdf-container .final-page h3 {
+  font-size: 20px !important;
+  margin-bottom: 10px !important;
+}
+
+.pdf-container .room-desc {
+  margin-bottom: 15px !important;
+}
+
+.pdf-container .room-features li {
+  font-size: 14px !important;
+  margin-bottom: 6px !important;
+}
+
+.pdf-container .summary-grid {
+  gap: 12px !important;
+  margin-bottom: 15px !important;
+}
+
+.pdf-container .summary-item {
+  padding: 12px !important;
+}
+
+.pdf-container .summary-item small {
+  font-size: 12px !important;
+}
+
+.pdf-container .summary-item div {
+  font-size: 16px !important;
+}
+
+.pdf-container .price-tag {
+  font-size: 28px !important;
+}
+
+.pdf-container .agent-card {
+  flex-direction: row !important;
+  text-align: left !important;
+  margin-top: 15px !important;
+  margin-bottom: 20px !important;
+  padding: 12px !important;
+}
+
+.pdf-container .agent-card h3 {
+  font-size: 18px !important;
+  margin-bottom: 4px !important;
+}
+
+.pdf-container .agent-card p {
+  font-size: 13px !important;
+  margin-bottom: 3px !important;
+}
+
+.pdf-container .agent-img {
+  width: 60px !important;
+  height: 60px !important;
+}

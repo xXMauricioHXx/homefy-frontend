@@ -1,0 +1,33 @@
+/* Force desktop layout for PDF generation container to prevent content overflow */
+.pdf-container {
+  /* Override any mobile media queries */
+  font-size: 16px !important;
+}
+
+.pdf-container .pdf-page {
+  /* Ensure A4 dimensions are maintained */
+  width: 210mm !important;
+  height: 297mm !important;
+  font-size: 16px !important;
+}
+
+.pdf-container .pdf-page h2 {
+  font-size: 32px !important;
+}
+
+.pdf-container .pdf-page h3 {
+  font-size: 24px !important;
+}
+
+.pdf-container .pdf-page p,
+.pdf-container .pdf-page li {
+  font-size: 16px !important;
+}
+
+.pdf-container .agent-card h3 {
+  font-size: 20px !important;
+}
+
+.pdf-container .agent-card p {
+  font-size: 14px !important;
+}
