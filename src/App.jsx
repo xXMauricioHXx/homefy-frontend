@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { PdfCacheProvider } from "./contexts/PdfCacheContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -75,9 +76,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <PdfCacheProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </PdfCacheProvider>
     </AuthProvider>
   );
 }

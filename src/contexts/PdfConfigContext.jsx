@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { updatePdfConfig } from "../services/api";
+import { usePdfCache } from "./PdfCacheContext";
 
 const PdfConfigContext = createContext();
 
@@ -53,6 +54,7 @@ export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
 
   const [config, setConfig] = useState(mergedConfig);
   const [hasChanges, setHasChanges] = useState(false);
+  const { invalidatePdfDetails, invalidatePdfList } = usePdfCache();
 
   const updateColors = (colors) => {
     setConfig((prev) => ({
@@ -153,6 +155,11 @@ export function PdfConfigProvider({ children, pdfId, initialConfig = null }) {
 
       const result = await updatePdfConfig(pdfId, config, token);
       setHasChanges(false);
+
+      // Invalidate cache after successful update
+      invalidatePdfDetails(pdfId);
+      invalidatePdfList();
+
       return { success: true, data: result };
     } catch (error) {
       console.error("Error saving PDF configuration:", error);

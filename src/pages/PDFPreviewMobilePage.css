@@ -248,7 +248,7 @@
 .mobile-download-button {
   position: fixed;
   bottom: 100px;
-  right: 1rem;
+  left: 1rem;
   width: 56px;
   height: 56px;
   border-radius: 50%;

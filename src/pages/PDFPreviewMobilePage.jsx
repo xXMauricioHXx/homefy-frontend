@@ -1,10 +1,12 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { usePdfCache } from "../contexts/PdfCacheContext";
 import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
-import { fetchPdfById } from "../services/api";
 import { generatePDFDownload } from "../utils/pdfGenerator";
 import Button from "../components/Button";
+import ConfigPanel from "../components/config/ConfigPanel";
+import FloatingConfigButtons from "../components/config/FloatingConfigButtons";
 import LoadingOverlay from "../components/LoadingOverlay";
 import CoverPage from "../components/pdf/CoverPage";
 import PropertyDescriptionPage from "../components/pdf/PropertyDescriptionPage";
@@ -18,6 +20,8 @@ function PDFPreviewMobileContent({ data }) {
   const { config } = usePdfConfig();
   const [currentPage, setCurrentPage] = useState(0);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
 
   // Get selected images from navigation state (if any)
   const selectedImages = location.state?.selectedImages || [];
@@ -37,6 +41,17 @@ function PDFPreviewMobileContent({ data }) {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const handleSectionSelect = (sectionId) => {
+    setActiveSection(sectionId);
+    setIsDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+    // Reset active section after animation completes
+    setTimeout(() => setActiveSection(null), 300);
   };
 
   const handleDownloadPDF = async () => {
@@ -233,6 +248,16 @@ function PDFPreviewMobileContent({ data }) {
               <SummaryPage property={data.property} colors={config.colors} />
             </div>
           </div>
+
+          {/* Floating Configuration Buttons */}
+          <FloatingConfigButtons onSectionSelect={handleSectionSelect} />
+
+          {/* Configuration Drawer */}
+          <ConfigPanel
+            isOpen={isDrawerOpen}
+            onClose={handleCloseDrawer}
+            activeSection={activeSection}
+          />
         </div>
       )}
     </div>
@@ -243,6 +268,7 @@ function PDFPreviewMobilePage() {
   const { pdfId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { getPdfById } = usePdfCache();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -258,7 +284,7 @@ function PDFPreviewMobilePage() {
         setLoading(true);
         setError(null);
         const token = await user.getIdToken();
-        const pdfData = await fetchPdfById(pdfId, token);
+        const pdfData = await getPdfById(pdfId, token);
         setData(pdfData);
       } catch (err) {
         console.error("Error loading PDF:", err);
@@ -269,7 +295,7 @@ function PDFPreviewMobilePage() {
     };
 
     loadPdfData();
-  }, [pdfId, user, navigate]);
+  }, [pdfId, user, navigate, getPdfById]);
 
   // Loading State
   if (loading) {

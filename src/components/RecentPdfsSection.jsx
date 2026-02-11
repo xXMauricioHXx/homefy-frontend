@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchUserPdfs } from "../services/api";
+import { usePdfCache } from "../contexts/PdfCacheContext";
 import RecentPdfCard from "./RecentPdfCard";
 import "./RecentPdfsSection.css";
 
@@ -7,6 +7,7 @@ function RecentPdfsSection({ user }) {
   const [pdfs, setPdfs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { getPdfList } = usePdfCache();
 
   useEffect(() => {
     const loadPdfs = async () => {
@@ -19,7 +20,7 @@ function RecentPdfsSection({ user }) {
         setLoading(true);
         setError(null);
         const token = await user.getIdToken();
-        const data = await fetchUserPdfs(token);
+        const data = await getPdfList(token);
         setPdfs(data.pdfs || []);
       } catch (err) {
         console.error("Error loading PDFs:", err);
@@ -30,7 +31,7 @@ function RecentPdfsSection({ user }) {
     };
 
     loadPdfs();
-  }, [user]);
+  }, [user, getPdfList]);
 
   // Don't render section if no user
   if (!user) {

@@ -1,4 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
+import { usePdfCache } from "../contexts/PdfCacheContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
@@ -14,6 +15,7 @@ import "./HomePage.css";
 
 function HomePage() {
   const { user } = useAuth();
+  const { invalidateAll } = usePdfCache();
   const navigate = useNavigate();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -114,6 +116,9 @@ function HomePage() {
         const createdPdf = await createPdf(pdfData, token);
 
         console.log("Upload response:", createdPdf);
+
+        // Invalidate cache after creating new PDF
+        invalidateAll();
 
         // Update state with processed data
         setPropertyData({

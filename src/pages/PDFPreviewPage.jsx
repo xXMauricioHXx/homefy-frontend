@@ -1,8 +1,8 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { usePdfCache } from "../contexts/PdfCacheContext";
 import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
-import { fetchPdfById } from "../services/api";
 import { generatePDFDownload } from "../utils/pdfGenerator";
 import Button from "../components/Button";
 import ConfigPanel from "../components/config/ConfigPanel";
@@ -135,6 +135,7 @@ function PDFPreviewPage() {
   const { pdfId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { getPdfById } = usePdfCache();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -176,7 +177,7 @@ function PDFPreviewPage() {
         setLoading(true);
         setError(null);
         const token = await user.getIdToken();
-        const pdfData = await fetchPdfById(pdfId, token);
+        const pdfData = await getPdfById(pdfId, token);
         setData(pdfData);
       } catch (err) {
         console.error("Error loading PDF:", err);
@@ -187,7 +188,7 @@ function PDFPreviewPage() {
     };
 
     loadPdfData();
-  }, [pdfId, user, navigate, location.state]);
+  }, [pdfId, user, navigate, getPdfById]);
 
   // Loading State
   if (loading) {

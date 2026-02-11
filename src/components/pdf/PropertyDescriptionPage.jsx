@@ -21,7 +21,7 @@ function PropertyDescriptionPage({ property, colors }) {
       <div className="room-body">
         <div className="room-desc">
           <h3 style={{ color: colors?.secondary || "#d45520" }}>Descrição</h3>
-          <p>{property.description}</p>
+          <p dangerouslySetInnerHTML={{ __html: property.description }}></p>
         </div>
 
         <div className="side-gallery">
