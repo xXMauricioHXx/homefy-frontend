@@ -1,18 +1,27 @@
 import PropTypes from "prop-types";
 import "./FloatingConfigButtons.css";
+import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
+import WysiwygOutlinedIcon from "@mui/icons-material/WysiwygOutlined";
+import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
 
-function FloatingConfigButtons({ onSectionSelect }) {
+function FloatingConfigButtons({ onSectionSelect, onDownload }) {
   const sections = [
     {
       id: "colors",
-      icon: "🎨",
+      icon: <ColorLensOutlinedIcon color="white" />,
       label: "Cores",
       color: "#ed6325",
     },
     {
       id: "summary",
-      icon: "📋",
+      icon: <WysiwygOutlinedIcon color="white" />,
       label: "Resumo",
+      color: "#d45520",
+    },
+    {
+      id: "download",
+      icon: <ArrowCircleDownOutlinedIcon color="white" />,
+      label: "Baixar",
       color: "#d45520",
     },
   ];
@@ -23,8 +32,16 @@ function FloatingConfigButtons({ onSectionSelect }) {
         <button
           key={section.id}
           className="floating-config-btn"
-          onClick={() => onSectionSelect(section.id)}
-          aria-label={`Abrir configurações de ${section.label}`}
+          onClick={() =>
+            section.id === "download"
+              ? onDownload()
+              : onSectionSelect(section.id)
+          }
+          aria-label={
+            section.id === "download"
+              ? "Baixar PDF"
+              : `Abrir configurações de ${section.label}`
+          }
           style={{ "--btn-color": section.color }}
         >
           <span className="floating-config-btn-icon">{section.icon}</span>
@@ -37,6 +54,7 @@ function FloatingConfigButtons({ onSectionSelect }) {
 
 FloatingConfigButtons.propTypes = {
   onSectionSelect: PropTypes.func.isRequired,
+  onDownload: PropTypes.func.isRequired,
 };
 
 export default FloatingConfigButtons;

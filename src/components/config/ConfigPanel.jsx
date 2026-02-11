@@ -4,6 +4,9 @@ import Button from "../Button";
 import ColorConfigSection from "./sections/ColorConfigSection";
 import SummaryConfigSection from "./sections/SummaryConfigSection";
 import "./ConfigPanel.css";
+import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
+import WysiwygOutlinedIcon from "@mui/icons-material/WysiwygOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 function ConfigPanel({ isOpen, onClose, activeSection = null }) {
   const { hasChanges, resetConfig, saveConfig } = usePdfConfig();
@@ -44,9 +47,9 @@ function ConfigPanel({ isOpen, onClose, activeSection = null }) {
 
   // Get panel icon based on active section
   const getPanelIcon = () => {
-    if (activeSection === "colors") return "🎨";
-    if (activeSection === "summary") return "📋";
-    return "⚙️";
+    if (activeSection === "colors") return <ColorLensOutlinedIcon />;
+    if (activeSection === "summary") return <WysiwygOutlinedIcon />;
+    return <SettingsOutlinedIcon />;
   };
 
   // Get panel subtitle based on active section

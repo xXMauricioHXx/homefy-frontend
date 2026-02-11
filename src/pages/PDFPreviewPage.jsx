@@ -67,11 +67,6 @@ function PDFPreviewContent({ data }) {
             <Button variant="primary" onClick={() => navigate("/")}>
               Voltar
             </Button>
-            {data && (
-              <Button variant="primary" onClick={handleDownloadPDF}>
-                Baixar PDF
-              </Button>
-            )}
           </div>
         </div>
       </nav>
@@ -117,7 +112,10 @@ function PDFPreviewContent({ data }) {
           </div>
 
           {/* Floating Configuration Buttons - Now for all screen sizes */}
-          <FloatingConfigButtons onSectionSelect={handleSectionSelect} />
+          <FloatingConfigButtons
+            onSectionSelect={handleSectionSelect}
+            onDownload={handleDownloadPDF}
+          />
 
           {/* Configuration Drawer */}
           <ConfigPanel
