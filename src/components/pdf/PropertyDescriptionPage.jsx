@@ -11,7 +11,7 @@ function PropertyDescriptionPage({ property, colors }) {
           className="room-title"
           style={{ color: colors?.primary || "#ed6325" }}
         >
-          Apartamento à Venda
+          Imóvel à Venda
         </div>
         <div className="room-subtitle">{property.resume}</div>
       </div>
@@ -24,7 +24,7 @@ function PropertyDescriptionPage({ property, colors }) {
           <p dangerouslySetInnerHTML={{ __html: property.description }}></p>
         </div>
 
-        <div className="side-gallery">
+        {/* <div className="side-gallery">
           {property.sideImages?.slice(0, 2).map((image, index) => (
             <img
               key={index}
@@ -33,7 +33,7 @@ function PropertyDescriptionPage({ property, colors }) {
               alt={`Detalhe ${index + 1}`}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

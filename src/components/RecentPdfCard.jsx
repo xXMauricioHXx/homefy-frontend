@@ -5,8 +5,12 @@ function RecentPdfCard({ pdf }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // Navigate to PDF preview page with PDF ID
-    navigate(`/pdf-preview/${pdf.id}`);
+    // Navigate to gallery page for gallery items, PDF preview for PDF items
+    if (pdf.type === "gallery") {
+      navigate(`/gallery/${pdf.pdfId}`);
+    } else {
+      navigate(`/pdf-preview/${pdf.pdfId}`);
+    }
   };
 
   // Format date
@@ -29,6 +33,9 @@ function RecentPdfCard({ pdf }) {
           className="pdf-card-image"
           loading="lazy"
         />
+        <div className="pdf-card-badge">
+          {pdf.type === "gallery" ? "GALERIA" : "PDF"}
+        </div>
         <div className="pdf-card-overlay">
           <svg
             className="pdf-card-icon"

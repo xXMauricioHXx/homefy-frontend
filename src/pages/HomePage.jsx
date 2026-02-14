@@ -7,10 +7,13 @@ import Button from "../components/Button";
 import { createPdf, fetchPropertyData } from "../services/api";
 import RecentPdfsSection from "../components/RecentPdfsSection";
 import Modal from "../components/Modal";
+import ActionSelectionModal from "../components/ActionSelectionModal";
 import Stepper from "../components/Stepper";
 import ImageSelectionStep from "../components/ImageSelectionStep";
 import DescriptionStep from "../components/DescriptionStep";
 import { showErrorToast } from "../components/Toast";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import "./HomePage.css";
 
 function HomePage() {
@@ -20,12 +23,14 @@ function HomePage() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [propertyData, setPropertyData] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [description, setDescription] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [actionMode, setActionMode] = useState(null); // 'pdf' or 'download'
 
   const handleGeneratePDF = async () => {
     // Validate URL
@@ -54,12 +59,12 @@ function HomePage() {
       // Call API with token
       const response = await fetchPropertyData(url, token);
 
-      // Store property data and open modal for image selection
+      // Store property data and open action selection modal
       setPropertyData(response);
       setSelectedImages([]);
       setDescription(response.data.property?.description || "");
       setCurrentStep(1);
-      setIsModalOpen(true);
+      setIsActionModalOpen(true);
     } catch (err) {
       setError("Erro ao gerar PDF. Por favor, tente novamente.");
       console.error("Error generating PDF:", err);
@@ -68,12 +73,29 @@ function HomePage() {
     }
   };
 
+  const handleActionModalClose = () => {
+    setIsActionModalOpen(false);
+  };
+
   const handleModalClose = () => {
     setIsModalOpen(false);
     setPropertyData(null);
     setSelectedImages([]);
     setDescription("");
     setCurrentStep(1);
+    setActionMode(null);
+  };
+
+  const handlePdfAction = () => {
+    setActionMode("pdf");
+    setIsActionModalOpen(false);
+    setIsModalOpen(true);
+  };
+
+  const handleDownloadAction = () => {
+    setActionMode("download");
+    setIsActionModalOpen(false);
+    setIsModalOpen(true);
   };
 
   const handleImageSelectionChange = (images) => {
@@ -95,6 +117,14 @@ function HomePage() {
   };
 
   const handleStepperFinish = async () => {
+    if (actionMode === "pdf") {
+      await handlePdfGeneration();
+    } else if (actionMode === "download") {
+      await handleImageDownload();
+    }
+  };
+
+  const handlePdfGeneration = async () => {
     // Process selected images and navigate to PDF preview
     if (selectedImages.length > 0 && propertyData) {
       try {
@@ -110,6 +140,8 @@ function HomePage() {
             gallery: selectedImages,
             description,
           },
+          type: "pdf",
+          url,
         };
 
         // Call API to create PDF
@@ -145,6 +177,71 @@ function HomePage() {
           setError("Erro ao processar imagens. Por favor, tente novamente.");
         }
 
+        setIsProcessing(false);
+      }
+    }
+  };
+
+  const handleImageDownload = async () => {
+    if (selectedImages.length > 0) {
+      try {
+        setIsProcessing(true);
+
+        // Get Firebase authentication token
+        const token = await user.getIdToken();
+        const pdfData = {
+          ...propertyData.data,
+          property: {
+            ...propertyData.data.property,
+            gallery: selectedImages,
+            description,
+          },
+          type: "gallery",
+          url,
+        };
+
+        // Call API to create PDF
+        const createdPdf = await createPdf(pdfData, token);
+
+        const imageUrls = createdPdf.property?.gallery || [];
+
+        if (!Array.isArray(imageUrls)) {
+          throw new Error("Invalid response format from server");
+        }
+
+        // Create ZIP file
+        const zip = new JSZip();
+        const imageFolder = zip.folder("imagens");
+
+        // Fetch and add each image to ZIP
+        const imagePromises = imageUrls.map(async (imageUrl, index) => {
+          try {
+            const imageResponse = await fetch(imageUrl);
+            const imageBlob = await imageResponse.blob();
+            const extension = imageUrl.split(".").pop().split("?")[0] || "jpg";
+            imageFolder.file(`imagem_${index + 1}.${extension}`, imageBlob);
+          } catch (err) {
+            console.error(`Error fetching image ${index + 1}:`, err);
+          }
+        });
+
+        await Promise.all(imagePromises);
+
+        // Generate ZIP file
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+
+        // Trigger download
+        const propertyName = propertyData.data.property?.title || "imovel";
+        const sanitizedName = propertyName
+          .replace(/[^a-z0-9]/gi, "_")
+          .toLowerCase();
+        saveAs(zipBlob, `${sanitizedName}_imagens.zip`);
+
+        // Close modal
+        handleModalClose();
+      } catch (err) {
+        console.error("Error downloading images:", err);
+        setError("Erro ao baixar imagens. Por favor, tente novamente.");
         setIsProcessing(false);
       }
     }
@@ -218,7 +315,7 @@ function HomePage() {
               onClick={handleGeneratePDF}
               disabled={loading}
             >
-              {loading ? "Gerando..." : "Gerar PDF"}
+              {loading ? "Transformando..." : "Transformar"}
             </Button>
           </div>
 
@@ -272,43 +369,71 @@ function HomePage() {
         <RecentPdfsSection user={user} />
       </main>
 
+      {/* Action Selection Modal */}
+      <ActionSelectionModal
+        isOpen={isActionModalOpen}
+        onClose={handleActionModalClose}
+        onPdfAction={handlePdfAction}
+        onDownloadAction={handleDownloadAction}
+      />
+
       {/* Image Selection Modal */}
       {propertyData && (
         <Modal
           isOpen={isModalOpen}
           onClose={handleModalClose}
-          title="Personalizar PDF"
+          title={
+            actionMode === "pdf"
+              ? "Personalizar PDF"
+              : "Selecionar Imagens para Download"
+          }
           size="large"
         >
           <Stepper
-            steps={[
-              {
-                id: "images",
-                label: "Imagens",
-                component: (
-                  <ImageSelectionStep
-                    images={propertyData.data.property?.gallery || []}
-                    onSelectionChange={handleImageSelectionChange}
-                    maxSelection={parseInt(
-                      import.meta.env.VITE_MAX_IMAGES_PER_PDF || "10",
-                    )}
-                  />
-                ),
-              },
-              {
-                id: "description",
-                label: "Descrição",
-                component: (
-                  <DescriptionStep
-                    description={description}
-                    onDescriptionChange={handleDescriptionChange}
-                    maxLength={2000}
-                  />
-                ),
-              },
-              // Future steps will be added here:
-              // { id: "features", label: "Características", component: <FeaturesStep /> },
-            ]}
+            steps={
+              actionMode === "pdf"
+                ? [
+                    {
+                      id: "images",
+                      label: "Imagens",
+                      component: (
+                        <ImageSelectionStep
+                          images={propertyData.data.property?.gallery || []}
+                          onSelectionChange={handleImageSelectionChange}
+                          maxSelection={parseInt(
+                            import.meta.env.VITE_MAX_IMAGES_PER_PDF || "10",
+                          )}
+                        />
+                      ),
+                    },
+                    {
+                      id: "description",
+                      label: "Descrição",
+                      component: (
+                        <DescriptionStep
+                          description={description}
+                          onDescriptionChange={handleDescriptionChange}
+                          maxLength={2000}
+                        />
+                      ),
+                    },
+                  ]
+                : [
+                    {
+                      id: "images",
+                      label: "Imagens",
+                      component: (
+                        <ImageSelectionStep
+                          images={propertyData.data.property?.gallery || []}
+                          onSelectionChange={handleImageSelectionChange}
+                          maxSelection={parseInt(
+                            import.meta.env.VITE_MAX_IMAGES_PER_PDF || "10",
+                          )}
+                        />
+                      ),
+                    },
+                  ]
+            }
             currentStep={currentStep}
             onStepChange={setCurrentStep}
             canGoNext={selectedImages.length > 0 && !isProcessing}
@@ -316,9 +441,13 @@ function HomePage() {
             onNext={handleStepperNext}
             onPrevious={handleStepperPrevious}
             onFinish={handleStepperFinish}
-            isLastStep={currentStep === 2}
+            isLastStep={
+              actionMode === "pdf" ? currentStep === 2 : currentStep === 1
+            }
             isProcessing={isProcessing}
-            processingMessage="Criando PDF..."
+            processingMessage={
+              actionMode === "pdf" ? "Criando PDF..." : "Baixando imagens..."
+            }
           />
         </Modal>
       )}
