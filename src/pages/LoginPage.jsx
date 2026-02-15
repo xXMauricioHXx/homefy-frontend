@@ -23,7 +23,7 @@ function LoginPage() {
   // Redirect to home if already logged in
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/app");
     }
   }, [user, navigate]);
 
