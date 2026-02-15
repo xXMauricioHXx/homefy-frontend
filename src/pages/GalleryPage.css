@@ -116,6 +116,7 @@
   padding: var(--spacing-lg);
   padding-bottom: calc(80px + var(--spacing-lg)); /* Space for bottom bar */
   overflow-y: auto;
+  min-height: 0; /* Important for flex children */
 }
 
 /* Responsive */

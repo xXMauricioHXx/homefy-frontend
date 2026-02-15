@@ -74,7 +74,9 @@ function GalleryPage() {
     }
 
     // Remove duplicates
-    return [...new Set(imageList)];
+    const uniqueImages = [...new Set(imageList)];
+    console.log("Gallery images:", uniqueImages.length, uniqueImages);
+    return uniqueImages;
   }, [galleryData]);
 
   const handleBack = () => {

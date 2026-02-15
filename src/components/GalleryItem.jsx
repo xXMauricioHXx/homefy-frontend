@@ -9,7 +9,7 @@ function GalleryItem({
   isSelectionMode,
   onClick,
 }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const handleImageLoad = () => {

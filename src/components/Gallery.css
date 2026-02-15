@@ -69,6 +69,13 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-md);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (min-width: 768px) {
@@ -92,6 +99,7 @@
   cursor: pointer;
   background: var(--color-bg-secondary);
   transition: all var(--transition-base);
+  width: 100%;
 }
 
 .gallery-item:hover {
@@ -112,6 +120,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Skeleton Loader */
