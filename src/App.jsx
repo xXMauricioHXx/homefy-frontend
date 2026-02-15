@@ -13,6 +13,8 @@ import PDFPreviewPage from "./pages/PDFPreviewPage";
 import PDFPreviewMobilePage from "./pages/PDFPreviewMobilePage";
 import GalleryPage from "./pages/GalleryPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import LandingPage from "./pages/LandingPage";
+import PricingPage from "./pages/PricingPage";
 import "./App.css";
 
 function AppContent() {
@@ -22,8 +24,10 @@ function AppContent() {
     <>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route
-          path="/"
+          path="/app"
           element={
             <ProtectedRoute>
               <HomePage />
