@@ -11,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import PDFPreviewPage from "./pages/PDFPreviewPage";
 import PDFPreviewMobilePage from "./pages/PDFPreviewMobilePage";
+import GalleryPage from "./pages/GalleryPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import "./App.css";
 
@@ -58,6 +59,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <PDFPreviewMobilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gallery/:pdfId"
+          element={
+            <ProtectedRoute>
+              <GalleryPage />
             </ProtectedRoute>
           }
         />

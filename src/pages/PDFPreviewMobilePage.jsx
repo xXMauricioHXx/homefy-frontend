@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { usePdfCache } from "../contexts/PdfCacheContext";
 import { PdfConfigProvider, usePdfConfig } from "../contexts/PdfConfigContext";
 import { generatePDFDownload } from "../utils/pdfGenerator";
+import { useGalleryDownload } from "../hooks/useGalleryDownload";
 import Button from "../components/Button";
 import ConfigPanel from "../components/config/ConfigPanel";
 import FloatingConfigButtons from "../components/config/FloatingConfigButtons";
@@ -18,6 +19,7 @@ function PDFPreviewMobileContent({ data }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { config } = usePdfConfig();
+  const { downloadAsZip } = useGalleryDownload();
   const [currentPage, setCurrentPage] = useState(0);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -65,6 +67,20 @@ function PDFPreviewMobileContent({ data }) {
     } finally {
       setIsGeneratingPDF(false);
     }
+  };
+
+  const handleDownloadImages = async () => {
+    const galleryImages = data.property.gallery || [];
+    if (galleryImages.length === 0) {
+      alert("Este PDF não possui imagens para download.");
+      return;
+    }
+
+    await downloadAsZip(
+      galleryImages,
+      data.brand.name,
+      data.property.reference,
+    );
   };
 
   const renderCurrentPage = () => {
@@ -236,6 +252,7 @@ function PDFPreviewMobileContent({ data }) {
           <FloatingConfigButtons
             onSectionSelect={handleSectionSelect}
             onDownload={handleDownloadPDF}
+            onDownloadImages={handleDownloadImages}
           />
 
           {/* Configuration Drawer */}

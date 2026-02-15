@@ -92,8 +92,8 @@ function RecentPdfsSection({ user }) {
 
         {!loading && !error && pdfs.length > 0 && (
           <div className="recent-pdfs-grid">
-            {pdfs.map((pdf) => (
-              <RecentPdfCard key={pdf.id} pdf={pdf} />
+            {pdfs.map((pdf, index) => (
+              <RecentPdfCard key={index} pdf={pdf} />
             ))}
           </div>
         )}

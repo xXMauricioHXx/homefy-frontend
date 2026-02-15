@@ -113,6 +113,34 @@ export async function uploadImages(urls, pdfId, token) {
   }
 }
 
+export async function downloadImages(urls, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/scrap-uploadImages`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ urls }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error downloading images:", error);
+    throw error;
+  }
+}
+
 export const createPdf = async (pdfData, token) => {
   try {
     const headers = {
@@ -297,6 +325,37 @@ export async function updateUserProfilePicture(photoUrl, token) {
     return data;
   } catch (error) {
     console.error("Error updating user profile picture:", error);
+    throw error;
+  }
+}
+
+export async function fetchGalleryByPdfId(pdfId, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(
+      `${API_BASE_URL}/scrap-getGalleryByPdfId?pdfId=${pdfId}`,
+      {
+        method: "GET",
+        headers,
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching galleries by user ID:", error);
     throw error;
   }
 }

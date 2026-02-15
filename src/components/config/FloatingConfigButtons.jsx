@@ -3,8 +3,13 @@ import "./FloatingConfigButtons.css";
 import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
 import WysiwygOutlinedIcon from "@mui/icons-material/WysiwygOutlined";
 import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
+import PermMediaOutlinedIcon from "@mui/icons-material/PermMediaOutlined";
 
-function FloatingConfigButtons({ onSectionSelect, onDownload }) {
+function FloatingConfigButtons({
+  onSectionSelect,
+  onDownload,
+  onDownloadImages,
+}) {
   const sections = [
     {
       id: "colors",
@@ -19,9 +24,15 @@ function FloatingConfigButtons({ onSectionSelect, onDownload }) {
       color: "#d45520",
     },
     {
+      id: "images",
+      icon: <PermMediaOutlinedIcon color="white" />,
+      label: "Imagens",
+      color: "#c44a1c",
+    },
+    {
       id: "download",
       icon: <ArrowCircleDownOutlinedIcon color="white" />,
-      label: "Baixar",
+      label: "PDF",
       color: "#d45520",
     },
   ];
@@ -32,15 +43,21 @@ function FloatingConfigButtons({ onSectionSelect, onDownload }) {
         <button
           key={section.id}
           className="floating-config-btn"
-          onClick={() =>
-            section.id === "download"
-              ? onDownload()
-              : onSectionSelect(section.id)
-          }
+          onClick={() => {
+            if (section.id === "download") {
+              onDownload();
+            } else if (section.id === "images") {
+              onDownloadImages();
+            } else {
+              onSectionSelect(section.id);
+            }
+          }}
           aria-label={
             section.id === "download"
               ? "Baixar PDF"
-              : `Abrir configurações de ${section.label}`
+              : section.id === "images"
+                ? "Baixar Imagens"
+                : `Abrir configurações de ${section.label}`
           }
           style={{ "--btn-color": section.color }}
         >
@@ -55,6 +72,7 @@ function FloatingConfigButtons({ onSectionSelect, onDownload }) {
 FloatingConfigButtons.propTypes = {
   onSectionSelect: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
+  onDownloadImages: PropTypes.func.isRequired,
 };
 
 export default FloatingConfigButtons;

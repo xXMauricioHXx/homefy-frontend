@@ -13,13 +13,14 @@ function GalleryPage({ image, brand, propertyResume, index, colors }) {
       </div>
 
       <div className="gallery-content">
-        <div className="gallery-figure">
-          <img
-            src={image}
-            className="gallery-img"
-            alt={`Galeria ${index + 1}`}
-          />
-        </div>
+        <div
+          className="gallery-figure-bg"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+          role="img"
+          aria-label={`Galeria ${index + 1}`}
+        />
       </div>
     </div>
   );

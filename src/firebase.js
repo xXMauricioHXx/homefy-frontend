@@ -21,6 +21,8 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+const environment = import.meta.env.VITE_ENVIRONMENT;
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
@@ -59,10 +61,14 @@ export async function uploadProfilePicture(file, userId) {
       "File size too large. Please upload an image smaller than 5MB.",
     );
   }
+  const suffix = environment === "production" ? "" : "-dev";
 
   // Delete existing profile pictures for this user
   try {
-    const userProfilePicturesRef = ref(storage, `profile-pictures/${userId}`);
+    const userProfilePicturesRef = ref(
+      storage,
+      `profile-pictures${suffix}/${userId}`,
+    );
     const existingFiles = await listAll(userProfilePicturesRef);
 
     // Delete all existing files in the user's profile pictures folder
@@ -86,7 +92,7 @@ export async function uploadProfilePicture(file, userId) {
   const fileExtension = file.name.split(".").pop();
   const storageRef = ref(
     storage,
-    `profile-pictures/${userId}/${timestamp}.${fileExtension}`,
+    `profile-pictures${suffix}/${userId}/${timestamp}.${fileExtension}`,
   );
 
   // Upload the file
