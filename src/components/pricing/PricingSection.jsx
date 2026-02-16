@@ -44,7 +44,7 @@ function PricingSection() {
       name: "Plano Básico",
       price: "R$ 29,90",
       features: [
-        "5 PDFs por mês",
+        "10 PDFs por mês",
         "Até 10 imagens por PDF",
         "Geração instantânea",
         "Layout profissional",
@@ -58,7 +58,7 @@ function PricingSection() {
       name: "Plano Premium",
       price: "R$ 59,90",
       features: [
-        "10 PDFs por mês",
+        "20 PDFs por mês",
         "Imagens ilimitadas",
         "Geração instantânea",
         "Layout profissional",
@@ -73,7 +73,7 @@ function PricingSection() {
       name: "Plano Premium +",
       price: "R$ 119,90",
       features: [
-        "30 PDFs por mês",
+        "40 PDFs por mês",
         "Até 10 imagens por PDF",
         "Geração instantânea",
         "Layout profissional",
