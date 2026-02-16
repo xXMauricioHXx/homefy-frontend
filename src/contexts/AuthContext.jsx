@@ -17,6 +17,8 @@ export function AuthProvider({ children }) {
   const [userDataError, setUserDataError] = useState(null);
   const [showUserDataModal, setShowUserDataModal] = useState(false);
 
+  const [isRegistering, setIsRegistering] = useState(false);
+
   // Fetch user data from API
   const fetchUserData = async (forceRefetch = false) => {
     if (!user) return;
@@ -36,6 +38,7 @@ export function AuthProvider({ children }) {
         setShowUserDataModal(false);
       } else {
         // User data not found, show modal
+
         setShowUserDataModal(true);
       }
     } catch (error) {
@@ -96,11 +99,11 @@ export function AuthProvider({ children }) {
 
   // Fetch user data when user is authenticated
   useEffect(() => {
-    if (user && !loading) {
+    if (user && !loading && !isRegistering) {
       fetchUserData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
+  }, [user, loading, isRegistering]);
 
   return (
     <AuthContext.Provider
@@ -114,6 +117,7 @@ export function AuthProvider({ children }) {
         fetchUserData,
         updateUserData,
         setUserData,
+        setIsRegistering, // Expose setIsRegistering
       }}
     >
       {children}
