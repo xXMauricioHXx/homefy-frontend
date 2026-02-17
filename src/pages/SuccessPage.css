@@ -1,0 +1,140 @@
+/* Scoped styles for SuccessPage */
+.success-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-secondary);
+}
+
+.success-page .success-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+}
+
+.success-page .success-card {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  max-width: 500px;
+  width: 100%;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  animation: successFadeIn 0.5s ease-out;
+}
+
+.success-page .success-icon-wrapper {
+  margin-bottom: var(--spacing-lg);
+  display: inline-flex;
+  padding: var(--spacing-md);
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.1); /* Success color with opacity */
+}
+
+.success-page .success-icon-wrapper.loading {
+  background-color: rgba(237, 99, 37, 0.1); /* Accent color with opacity */
+}
+
+.success-page .success-icon-wrapper.warning {
+  background-color: rgba(245, 158, 11, 0.1); /* Warning color with opacity */
+}
+
+.success-page .success-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+}
+
+.success-page .success-message {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+  font-size: 1.1rem;
+}
+
+.success-page .plan-details-card {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.success-page .plan-detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.success-page .plan-detail-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.success-page .plan-detail-label {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.success-page .plan-detail-value {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.success-page .action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.success-page .success-btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+
+.success-page .success-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.success-page .success-btn-secondary {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-text-muted);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.success-page .success-btn-secondary:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
+}
+
+/* Scoped Animations */
+@keyframes successFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

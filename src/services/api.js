@@ -371,7 +371,7 @@ export async function createCheckoutSession(planId, token) {
     }
 
     const response = await fetch(
-      `${API_BASE_URL}/stripe-createCheckoutSession`,
+      `${API_BASE_URL}/scrap-createCheckoutSession`,
       {
         method: "POST",
         headers,
