@@ -359,3 +359,34 @@ export async function fetchGalleryByPdfId(pdfId, token) {
     throw error;
   }
 }
+
+export async function createCheckoutSession(planId, token) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(
+      `${API_BASE_URL}/scrap-createCheckoutSession`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ planId }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    throw error;
+  }
+}

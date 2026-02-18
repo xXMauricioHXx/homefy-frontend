@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "../components/Button";
@@ -14,7 +10,6 @@ import "./LoginPage.css";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
@@ -33,11 +28,7 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-      }
+      await signInWithEmailAndPassword(auth, email, password);
       setEmail("");
       setPassword("");
     } catch (err) {
@@ -76,7 +67,7 @@ function LoginPage() {
     return errorMessages[code] || "Erro ao autenticar. Tente novamente.";
   };
 
-  // Login/Signup form
+  // Login form
   return (
     <div className="login-container">
       <div className="login-background">
@@ -88,9 +79,7 @@ function LoginPage() {
       <div className="login-card">
         <div className="login-header">
           <h1 className="login-title gradient-text">Homefy</h1>
-          <p className="login-subtitle">
-            {isSignUp ? "Crie sua conta" : "Entre na sua conta"}
-          </p>
+          <p className="login-subtitle">Entre na sua conta</p>
         </div>
 
         {error && <div className="error-message">{error}</div>}
@@ -120,7 +109,7 @@ function LoginPage() {
           />
 
           <Button type="submit" variant="primary" loading={loading}>
-            {isSignUp ? "Criar Conta" : "Entrar"}
+            Entrar
           </Button>
         </form>
 
@@ -153,25 +142,24 @@ function LoginPage() {
         </Button>
 
         <div style={{ textAlign: "center", marginTop: "var(--spacing-lg)" }}>
-          <button
-            type="button"
-            onClick={() => {
-              setIsSignUp(!isSignUp);
-              setError("");
-            }}
+          <p
             style={{
-              background: "none",
-              border: "none",
-              color: "var(--color-accent-primary)",
-              cursor: "pointer",
               fontSize: "0.875rem",
-              textDecoration: "underline",
+              color: "var(--color-text-secondary)",
             }}
           >
-            {isSignUp
-              ? "Já tem uma conta? Entre"
-              : "Não tem conta? Cadastre-se"}
-          </button>
+            Não tem uma conta?{" "}
+            <Link
+              to="/register"
+              style={{
+                color: "var(--color-accent-primary)",
+                fontWeight: "600",
+                textDecoration: "none",
+              }}
+            >
+              Cadastre-se
+            </Link>
+          </p>
         </div>
       </div>
     </div>

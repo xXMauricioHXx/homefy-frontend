@@ -129,7 +129,7 @@ function PDFPreviewMobileContent({ data }) {
         <div className="mobile-navbar-content">
           <button
             className="mobile-back-button"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/app")}
             aria-label="Voltar"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -351,7 +351,7 @@ function PDFPreviewMobilePage() {
             />
           </svg>
           <p className="mobile-error-text">{error}</p>
-          <Button variant="primary" onClick={() => navigate("/")}>
+          <Button variant="primary" onClick={() => navigate("/app")}>
             Voltar para Home
           </Button>
         </div>

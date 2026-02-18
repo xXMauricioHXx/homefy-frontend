@@ -196,21 +196,6 @@ function SubscriptionPage() {
               </div>
 
               {/* Usage Stats */}
-              <div className="subscription-usage-card">
-                <h3 className="subscription-usage-title">Uso do Plano</h3>
-                <div className="subscription-usage-bar">
-                  <div
-                    className="subscription-usage-progress"
-                    style={{
-                      width: `${((currentPlan.pdfs - (userData?.plan?.credits || 0)) / currentPlan.pdfs) * 100}%`,
-                    }}
-                  ></div>
-                </div>
-                <p className="subscription-usage-text">
-                  {currentPlan.pdfs - (userData?.plan?.credits || 0)} de{" "}
-                  {currentPlan.pdfs} PDFs utilizados este mês
-                </p>
-              </div>
             </>
           )}
         </div>

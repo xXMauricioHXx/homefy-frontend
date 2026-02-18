@@ -80,12 +80,12 @@ function PDFPreviewContent({ data }) {
           </div>
 
           <div className="navbar-actions">
-            <Button variant="primary" onClick={() => navigate("/")}>
+            <Button variant="primary" onClick={() => navigate("/app")}>
               Voltar
             </Button>
           </div>
         </div>
-      </nav>
+      </nav>  
 
       {/* Main Content - PDF Preview + Config Panel */}
       {data && (

@@ -3,27 +3,31 @@ import { useAuth } from "../../contexts/AuthContext";
 import PricingCard from "./PricingCard";
 import PricingHeader from "./PricingHeader";
 import "./Pricing.css";
+import { createCheckoutSession } from "../../services/api";
 
 function PricingSection() {
   const navigate = useNavigate();
   const { user, userData } = useAuth();
 
-  const handleCtaClick = (planId) => {
+  const handleCtaClick = async (planId) => {
     if (planId === "gratuito") {
       navigate("/app");
       return;
     }
 
     if (user) {
-      // Logic for subscription if needed, or just redirect to contact/payment
-      // For now, let's say it goes to dashboard or contact?
-      // Usually would open Stripe or a payment modal.
-      console.log("Redirecting to subscription logic");
+      const token = await user.getIdToken();
+      const checkoutSession = await createCheckoutSession(planId, token);
+
+      if (checkoutSession.url) {
+        window.location.href = checkoutSession.url;
+      } else {
+        console.error("Failed to get Stripe Checkout URL:", checkoutSession);
+      }
     } else {
       navigate("/login");
     }
   };
-
   const plans = [
     {
       name: "Plano Gratuito",
@@ -59,7 +63,7 @@ function PricingSection() {
       price: "R$ 59,90",
       features: [
         "20 PDFs por mês",
-        "Imagens ilimitadas",
+        "Até 10 imagens por PDF",
         "Geração instantânea",
         "Layout profissional",
         "Download em PDF",

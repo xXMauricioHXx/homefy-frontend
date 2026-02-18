@@ -70,6 +70,7 @@ function HomePage() {
       console.error("Error generating PDF:", err);
     } finally {
       setLoading(false);
+      
     }
   };
 

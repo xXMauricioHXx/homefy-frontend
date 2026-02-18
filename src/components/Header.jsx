@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
+import { usePdfCache } from "../contexts/PdfCacheContext";
 import "./Header.css";
 
 function Header() {
   const { user, userData } = useAuth();
+  const { invalidateAll } = usePdfCache();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -14,6 +16,7 @@ function Header() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      invalidateAll();
       navigate("/login");
     } catch (error) {
       console.error("Erro ao sair:", error);

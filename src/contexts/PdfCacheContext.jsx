@@ -1,9 +1,17 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import { fetchUserPdfs, fetchPdfById } from "../services/api";
+import { useAuth } from "./AuthContext";
 
 const PdfCacheContext = createContext();
 
 export function PdfCacheProvider({ children }) {
+  const { user } = useAuth();
   const [cache, setCache] = useState({
     pdfList: {
       data: null,
@@ -80,6 +88,11 @@ export function PdfCacheProvider({ children }) {
       pdfDetails: {},
     });
   }, []);
+
+  // Automatically clear cache when user changes or logs out
+  useEffect(() => {
+    invalidateAll();
+  }, [user?.uid, invalidateAll]);
 
   // Invalidate PDF list cache only
   const invalidatePdfList = useCallback(() => {
