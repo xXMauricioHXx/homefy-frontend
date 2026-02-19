@@ -7,14 +7,21 @@ function PricingCard({
   features,
   ctaText,
   isPopular,
-
+  isHighlighted,
   isCurrentPlan,
   onCtaClick,
   isOutlineCta,
 }) {
   return (
-    <div className={`pricing-card ${isPopular ? "highlighted" : ""}`}>
+    <div
+      className={`pricing-card ${isPopular ? "highlighted" : ""} ${isHighlighted ? "selected-intent" : ""}`}
+    >
       {isPopular && <div className="pricing-card-badge">Mais Popular</div>}
+      {isHighlighted && !isCurrentPlan && (
+        <div className="pricing-card-badge pricing-card-badge--intent">
+          Plano selecionado ✓
+        </div>
+      )}
 
       <div className="pricing-plan-header">
         <h3 className="pricing-plan-name">{name}</h3>
@@ -68,6 +75,7 @@ PricingCard.propTypes = {
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
   ctaText: PropTypes.string.isRequired,
   isPopular: PropTypes.bool,
+  isHighlighted: PropTypes.bool,
   colorGradient: PropTypes.string.isRequired,
   isCurrentPlan: PropTypes.bool,
   onCtaClick: PropTypes.func,

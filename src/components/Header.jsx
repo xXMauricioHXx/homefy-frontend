@@ -38,7 +38,7 @@ function Header() {
   return (
     <nav className="header-navbar">
       <div className="header-navbar-content">
-        <div className="header-navbar-logo" onClick={() => navigate("/")}>
+        <div className="header-navbar-logo" onClick={() => navigate("/app")}>
           <span className="header-logo-text gradient-text">Homefy</span>
         </div>
 

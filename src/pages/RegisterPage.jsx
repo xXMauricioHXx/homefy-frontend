@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import {
+  useNavigate,
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
+import { resolvePostAuthDestination } from "../utils/postAuthRedirect";
 import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
@@ -21,13 +27,15 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const { user, setUserData, setIsRegistering } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  // Redirect to home if already logged in
+  // Redirect to resolved destination if already logged in
   useEffect(() => {
     if (user && !loading) {
-      navigate("/app");
+      navigate(resolvePostAuthDestination(searchParams));
     }
-  }, [user, navigate, loading]);
+  }, [user, navigate, loading, searchParams]);
 
   const onSubmit = async (data) => {
     setError("");
@@ -61,6 +69,9 @@ function RegisterPage() {
       );
 
       setUserData(response);
+
+      // Navigate to resolved post-auth destination
+      navigate(resolvePostAuthDestination(searchParams));
 
       // Navigate to app (AuthContext will handle the state update)
     } catch (err) {
@@ -179,7 +190,7 @@ function RegisterPage() {
           >
             Já tem uma conta?{" "}
             <Link
-              to="/login"
+              to={`/login${location.search}`}
               style={{
                 color: "var(--color-accent-primary)",
                 fontWeight: "600",

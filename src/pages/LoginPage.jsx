@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import {
+  useNavigate,
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
+import { resolvePostAuthDestination } from "../utils/postAuthRedirect";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -14,13 +20,15 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  // Redirect to home if already logged in
+  // Redirect to resolved destination if already logged in
   useEffect(() => {
     if (user) {
-      navigate("/app");
+      navigate(resolvePostAuthDestination(searchParams));
     }
-  }, [user, navigate]);
+  }, [user, navigate, searchParams]);
 
   const handleEmailAuth = async (e) => {
     e.preventDefault();
@@ -31,6 +39,7 @@ function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       setEmail("");
       setPassword("");
+      navigate(resolvePostAuthDestination(searchParams));
     } catch (err) {
       setError(getErrorMessage(err.code));
     } finally {
@@ -44,6 +53,7 @@ function LoginPage() {
 
     try {
       await signInWithPopup(auth, googleProvider);
+      navigate(resolvePostAuthDestination(searchParams));
     } catch (err) {
       setError(getErrorMessage(err.code));
     } finally {
@@ -150,7 +160,7 @@ function LoginPage() {
           >
             Não tem uma conta?{" "}
             <Link
-              to="/register"
+              to={`/register${location.search}`}
               style={{
                 color: "var(--color-accent-primary)",
                 fontWeight: "600",

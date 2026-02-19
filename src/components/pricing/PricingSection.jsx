@@ -1,13 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import PricingCard from "./PricingCard";
 import PricingHeader from "./PricingHeader";
 import "./Pricing.css";
 import { createCheckoutSession } from "../../services/api";
+import { savePostAuthRedirect } from "../../utils/postAuthRedirect";
 
 function PricingSection() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, userData } = useAuth();
+  const highlightedPlanId = searchParams.get("planId");
 
   const handleCtaClick = async (planId) => {
     if (planId === "gratuito") {
@@ -25,7 +28,8 @@ function PricingSection() {
         console.error("Failed to get Stripe Checkout URL:", checkoutSession);
       }
     } else {
-      navigate("/login");
+      savePostAuthRedirect({ redirectTo: "/pricing", planId });
+      navigate(`/login?redirectTo=/pricing&planId=${planId}`);
     }
   };
   const plans = [
@@ -102,6 +106,7 @@ function PricingSection() {
               key={plan.name}
               {...plan}
               isCurrentPlan={currentPlanId === plan.planId}
+              isHighlighted={highlightedPlanId === plan.planId}
               onCtaClick={() => handleCtaClick(plan.planId)}
             />
           ))}
