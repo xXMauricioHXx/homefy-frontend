@@ -114,8 +114,8 @@ function PricingSection() {
 
         <div className="pricing-footer-cta">
           <h2 className="pricing-footer-title">
-            Comece gratuitamente e transforme seus anúncios em PDFs
-            profissionais hoje mesmo
+            Comece gratuitamente e transforme seus anúncios em apresentações
+            incríveis hoje mesmo
           </h2>
           <button
             className="pricing-cta pricing-cta-primary"
