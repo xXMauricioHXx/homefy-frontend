@@ -44,7 +44,11 @@ function Header() {
 
         <div className="header-navbar-actions">
           {user && userData && (
-            <div className="header-credits-badge">
+            <div
+              className="header-credits-badge"
+              onClick={() => navigate("/pricing")}
+              style={{ cursor: "pointer" }}
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <circle
                   cx="12"

@@ -17,12 +17,12 @@ function HeroSection() {
 
           <h1 className="landing-hero-title">
             Transforme anúncios imobiliários em{" "}
-            <span className="gradient-text">PDFs profissionais</span> em menos
-            de 1 minuto
+            <span className="gradient-text">apresentações profissionais</span>{" "}
+            em menos de 1 minuto
           </h1>
 
           <p className="landing-hero-subtitle">
-            Pare de perder 30 minutos criando PDFs manualmente. O Homefy
+            Pare de perder tempo criando apresentações manualmente. O Homefy
             automatiza o download de imagens, organização e layout para você
             vender mais rápido.
           </p>
@@ -72,7 +72,7 @@ function HeroSection() {
                   Mockup do Sistema Homefy
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.8rem" }}>
-                  (Geração de PDF em tempo real)
+                  (Geração de apresentação em tempo real)
                 </p>
               </div>
             </div>

@@ -21,9 +21,9 @@ function StepsSection() {
     },
     {
       number: "03",
-      title: "Baixe o PDF",
+      title: "Baixe a Apresentação",
       description:
-        "Seu arquivo profissional está pronto. Baixe e envie para seu cliente.",
+        "Sua apresentação profissional está pronta. Baixe e envie para seu cliente.",
       icon: <FileDownloadIcon fontSize="inherit" />,
     },
   ];
@@ -44,7 +44,7 @@ function StepsSection() {
               color: "var(--color-text-secondary)",
             }}
           >
-            Simples, rápido e eficiente. Em 3 passos você tem seu PDF.
+            Simples, rápido e eficiente. Em 3 passos você tem sua apresentação.
           </p>
         </div>
 

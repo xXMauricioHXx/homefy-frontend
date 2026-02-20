@@ -114,7 +114,7 @@ function SolutionSection() {
                 >
                   ✓
                 </span>
-                Exportação instantânea para PDF
+                Exportação instantânea para PDF e muito mais
               </li>
             </ul>
           </div>

@@ -88,7 +88,7 @@ function SubscriptionPage() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span>{currentPlan.pdfs} PDFs por mês</span>
+                    <span>{currentPlan.pdfs} Apresentações por mês</span>
                   </div>
                   <div className="subscription-plan-feature">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -100,7 +100,7 @@ function SubscriptionPage() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span>{currentPlan.images} imagens por PDF</span>
+                    <span>{currentPlan.images} imagens por Apresentação</span>
                   </div>
                   <div className="subscription-plan-feature">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -145,7 +145,7 @@ function SubscriptionPage() {
                       {userData?.plan?.credits || 0} créditos
                     </p>
                     <p className="subscription-info-description">
-                      Use seus créditos para gerar PDFs personalizados
+                      Use seus créditos para gerar apresentações personalizadas
                     </p>
                   </div>
                 </div>

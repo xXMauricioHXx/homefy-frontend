@@ -265,7 +265,7 @@ function HomePage() {
         <div className="hero-section">
           <h1 className="hero-title">
             Transforme imóveis em
-            <span className="gradient-text"> PDFs incríveis</span>
+            <span className="gradient-text"> Apresentações incríveis</span>
           </h1>
           <p className="hero-subtitle">
             Cole a URL da imobiliária e crie apresentações profissionais em

@@ -22,8 +22,8 @@ function ProblemSection() {
               margin: "0 auto",
             }}
           >
-            Criar PDFs manualmente é lento, repetitivo e te impede de focar no
-            que realmente importa: vender.
+            Criar apresentações manualmente é lento, repetitivo e te impede de
+            focar no que realmente importa: vender.
           </p>
         </div>
 
@@ -81,8 +81,8 @@ function ProblemSection() {
             </div>
             <h3 style={{ marginBottom: "15px" }}>Layout Despadronizado</h3>
             <p>
-              Sem um template fixo, cada PDF sai diferente. Alinhar fotos e
-              textos consome muito tempo e paciência.
+              Sem um template fixo, cada apresentação sai diferente. Alinhar
+              fotos e textos consome muito tempo e paciência.
             </p>
           </div>
 
@@ -107,8 +107,8 @@ function ProblemSection() {
             </div>
             <h3 style={{ marginBottom: "15px" }}>Perda de Vendas</h3>
             <p>
-              Enquanto você gasta 30 minutos montando um arquivo, seu cliente
-              esfria ou encontra outro corretor mais ágil.
+              Enquanto você gasta tempo montando um arquivo, seu cliente esfria
+              ou encontra outro corretor mais ágil.
             </p>
           </div>
         </div>

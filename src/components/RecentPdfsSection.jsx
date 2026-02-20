@@ -43,17 +43,17 @@ function RecentPdfsSection({ user }) {
       <div className="recent-pdfs-container">
         <div className="recent-pdfs-header">
           <h2 className="recent-pdfs-title">
-            PDFs <span className="gradient-text">Recentes</span>
+            Apresentações <span className="gradient-text">Recentes</span>
           </h2>
           <p className="recent-pdfs-subtitle">
-            Seus últimos PDFs gerados estão aqui
+            Suas últimas apresentações geradas estão aqui
           </p>
         </div>
 
         {loading && (
           <div className="recent-pdfs-loading">
             <div className="loading-spinner"></div>
-            <p>Carregando PDFs...</p>
+            <p>Carregando apresentações...</p>
           </div>
         )}
 
@@ -85,8 +85,10 @@ function RecentPdfsSection({ user }) {
         {!loading && !error && pdfs.length === 0 && (
           <div className="recent-pdfs-empty">
             <div className="empty-icon">📄</div>
-            <h3>Nenhum PDF gerado ainda</h3>
-            <p>Comece gerando seu primeiro PDF usando o formulário acima</p>
+            <h3>Nenhuma apresentação gerada ainda</h3>
+            <p>
+              Comece gerando sua primeira apresentação usando o formulário acima
+            </p>
           </div>
         )}
 
