@@ -126,7 +126,7 @@ function GalleryPage() {
   const handleDownloadSingle = async (imageUrl, index) => {
     if (!galleryData) return;
 
-    const filename = `homefy_${galleryData.brand.name.toLowerCase().replace(/[^a-z0-9]/gi, "_")}_${galleryData.property.reference}_${String(index + 1).padStart(2, "0")}.jpg`;
+    const filename = `mada_${galleryData.brand.name.toLowerCase().replace(/[^a-z0-9]/gi, "_")}_${galleryData.property.reference}_${String(index + 1).padStart(2, "0")}.jpg`;
     await downloadSingleImage(imageUrl, filename);
   };
 

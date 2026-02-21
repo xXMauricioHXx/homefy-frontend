@@ -41,6 +41,12 @@
   width: 100%;
 }
 
+.landing-navbar-content img {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
 .landing-navbar-logo {
   font-size: 1.5rem;
   font-weight: 800;

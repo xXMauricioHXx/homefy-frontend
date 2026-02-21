@@ -41,7 +41,7 @@ function SolutionSection() {
                 marginBottom: "40px",
               }}
             >
-              Com o Homefy, basta colar o link do anúncio. Nossa inteligência
+              Com o Mada, basta colar o link do anúncio. Nossa inteligência
               artificial faz todo o trabalho pesado para você em segundos.
             </p>
 
@@ -177,7 +177,7 @@ function SolutionSection() {
                       color: "#999",
                     }}
                   >
-                    homefy.app
+                    mada.app
                   </div>
                 </div>
                 <div style={{ textAlign: "center", padding: "40px 0" }}>

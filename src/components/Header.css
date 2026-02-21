@@ -19,8 +19,16 @@
 }
 
 .header-navbar-logo {
+  display: flex;
+  align-items: center;
   cursor: pointer;
   transition: transform var(--transition-fast);
+}
+
+.header-navbar-logo img {
+  height: 32px;
+  width: auto;
+  display: block;
 }
 
 .header-navbar-logo:hover {
@@ -31,6 +39,7 @@
   font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: #fe632a;
 }
 
 .header-navbar-actions {
@@ -205,6 +214,7 @@
 
   .header-logo-text {
     font-size: 1.25rem;
+    color: var(--primary) !important;
   }
 
   .header-navbar-actions {

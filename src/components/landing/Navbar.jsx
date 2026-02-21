@@ -19,7 +19,7 @@ function Navbar() {
     <nav className={`landing-navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="landing-container landing-navbar-content">
         <Link to="/" className="landing-navbar-logo gradient-text">
-          Homefy
+          <img src="/logo.png" alt="Logo" />
         </Link>
 
         <div className="landing-navbar-actions">

@@ -42,7 +42,7 @@ function ExampleSection() {
           >
             <img
               src={pdfMockup}
-              alt="Exemplo de PDF Profissional Homefy"
+              alt="Exemplo de PDF Profissional Mada"
               style={{ width: "100%", height: "auto", display: "block" }}
             />
           </div>

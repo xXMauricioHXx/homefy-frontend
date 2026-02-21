@@ -76,9 +76,9 @@ export function useGalleryDownload() {
       const urlParts = imageUrl.split(".");
       const extension = urlParts[urlParts.length - 1].split("?")[0] || "jpg";
 
-      // Format: homefy_brandslug_ref_01.jpg
+      // Format: mada_brandslug_ref_01.jpg
       const paddedIndex = String(index).padStart(2, "0");
-      return `homefy_${brandSlug}_${reference}_${paddedIndex}.${extension}`;
+      return `mada_${brandSlug}_${reference}_${paddedIndex}.${extension}`;
     },
     [],
   );
@@ -164,7 +164,7 @@ export function useGalleryDownload() {
           .replace(/_+/g, "_")
           .replace(/^_|_$/g, "");
 
-        const zipFilename = `homefy_${brandSlug}_${reference}_imagens.zip`;
+        const zipFilename = `mada_${brandSlug}_${reference}_imagens.zip`;
 
         // Trigger download
         saveAs(zipBlob, zipFilename);

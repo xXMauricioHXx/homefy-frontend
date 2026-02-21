@@ -1,6 +1,6 @@
-# Homefy Frontend
+# Mada Frontend
 
-Este é o frontend do Homefy, uma aplicação para visualização de propriedades imobiliárias com geração de PDFs.
+Este é o frontend do Mada, uma aplicação para visualização de propriedades imobiliárias com geração de PDFs.
 
 ## Configuração do Ambiente
 

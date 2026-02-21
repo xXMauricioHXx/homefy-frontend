@@ -144,7 +144,7 @@ function PDFPreviewMobileContent({ data }) {
           </button>
 
           <div className="mobile-navbar-logo">
-            <span className="logo-text gradient-text">Homefy</span>
+            <span className="logo-text gradient-text">Mada</span>
           </div>
 
           <div className="mobile-page-indicator">
@@ -307,7 +307,7 @@ function PDFPreviewMobilePage() {
         <nav className="mobile-navbar">
           <div className="mobile-navbar-content">
             <div className="mobile-navbar-logo">
-              <span className="logo-text gradient-text">Homefy</span>
+              <span className="logo-text gradient-text">Mada</span>
             </div>
           </div>
         </nav>
@@ -326,7 +326,7 @@ function PDFPreviewMobilePage() {
         <nav className="mobile-navbar">
           <div className="mobile-navbar-content">
             <div className="mobile-navbar-logo">
-              <span className="logo-text gradient-text">Homefy</span>
+              <span className="logo-text gradient-text">Mada</span>
             </div>
           </div>
         </nav>

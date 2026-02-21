@@ -9,7 +9,7 @@ function StepsSection() {
       number: "01",
       title: "Cole o Link",
       description:
-        "Copie a URL do anúncio do imóvel no portal imobiliário e cole no Homefy.",
+        "Copie a URL do anúncio do imóvel no portal imobiliário e cole no Mada.",
       icon: <LinkIcon fontSize="inherit" />,
     },
     {

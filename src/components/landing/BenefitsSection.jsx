@@ -37,7 +37,7 @@ function BenefitsSection() {
       <div className="landing-container">
         <div style={{ textAlign: "center", marginBottom: "60px" }}>
           <h2 style={{ fontSize: "2.5rem", marginBottom: "20px" }}>
-            Por que usar o Homefy?
+            Por que usar o Mada?
           </h2>
         </div>
 

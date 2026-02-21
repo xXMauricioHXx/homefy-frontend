@@ -52,7 +52,7 @@ function CTASection() {
               color: "white",
             }}
           >
-            Comece a usar o Homefy hoje mesmo
+            Comece a usar o Mada hoje mesmo
           </h2>
           <p
             style={{

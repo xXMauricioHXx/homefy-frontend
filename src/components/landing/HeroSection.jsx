@@ -22,7 +22,7 @@ function HeroSection() {
           </h1>
 
           <p className="landing-hero-subtitle">
-            Pare de perder tempo criando apresentações manualmente. O Homefy
+            Pare de perder tempo criando apresentações manualmente. O Mada
             automatiza o download de imagens, organização e layout para você
             vender mais rápido.
           </p>
@@ -65,11 +65,11 @@ function HeroSection() {
               >
                 <img
                   src={heroMockup}
-                  alt="Exemplo de PDF Profissional Homefy"
+                  alt="Exemplo de PDF Profissional Mada"
                   style={{ width: "100%", height: "auto", display: "block" }}
                 />
                 <p style={{ color: "#aaa", fontWeight: 500 }}>
-                  Mockup do Sistema Homefy
+                  Mockup do Sistema Mada
                 </p>
                 <p style={{ color: "#ccc", fontSize: "0.8rem" }}>
                   (Geração de apresentação em tempo real)

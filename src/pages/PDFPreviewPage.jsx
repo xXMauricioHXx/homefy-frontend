@@ -76,7 +76,7 @@ function PDFPreviewContent({ data }) {
       >
         <div className="navbar-content">
           <div className="navbar-logo">
-            <span className="logo-text gradient-text">Homefy</span>
+            <span className="logo-text gradient-text">Mada</span>
           </div>
 
           <div className="navbar-actions">
@@ -85,7 +85,7 @@ function PDFPreviewContent({ data }) {
             </Button>
           </div>
         </div>
-      </nav>  
+      </nav>
 
       {/* Main Content - PDF Preview + Config Panel */}
       {data && (
@@ -215,7 +215,7 @@ function PDFPreviewPage() {
         >
           <div className="navbar-content">
             <div className="navbar-logo">
-              <span className="logo-text gradient-text">Homefy</span>
+              <span className="logo-text gradient-text">Mada</span>
             </div>
           </div>
         </nav>

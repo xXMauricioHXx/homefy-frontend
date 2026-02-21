@@ -56,7 +56,7 @@ function ComparisonSection() {
                     borderRadius: "12px 0 0 12px",
                   }}
                 >
-                  Manual (Sem Homefy)
+                  Manual (Sem Mada)
                 </th>
                 <th
                   style={{
@@ -69,7 +69,7 @@ function ComparisonSection() {
                     fontWeight: "bold",
                   }}
                 >
-                  Automático (Com Homefy)
+                  Automático (Com Mada)
                 </th>
               </tr>
             </thead>

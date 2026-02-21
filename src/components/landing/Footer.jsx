@@ -24,7 +24,7 @@ function Footer() {
               className="landing-navbar-logo gradient-text"
               style={{ marginBottom: "20px" }}
             >
-              Homefy
+              Mada
             </div>
             <p
               style={{
@@ -115,7 +115,7 @@ function Footer() {
                   color: "var(--color-text-secondary)",
                 }}
               >
-                homefy@gmail.com
+                mada@gmail.com
               </li>
               <li
                 style={{
@@ -138,8 +138,7 @@ function Footer() {
             fontSize: "0.9rem",
           }}
         >
-          &copy; {new Date().getFullYear()} Homefy. Todos os direitos
-          reservados.
+          &copy; {new Date().getFullYear()} Mada. Todos os direitos reservados.
         </div>
       </div>
     </footer>
