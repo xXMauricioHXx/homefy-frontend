@@ -32,10 +32,10 @@ function HeroSection() {
               Veja os planos
               <ArrowForwardIcon style={{ marginLeft: "8px" }} />
             </Link>
-            <Link to="/demo" className="landing-btn-secondary">
+            {/* <Link to="/demo" className="landing-btn-secondary">
               <PlayCircleOutlineIcon style={{ marginRight: "8px" }} />
               Ver Demonstração
-            </Link>
+            </Link> */}
           </div>
 
           <div className="landing-hero-visual landing-animate-float">

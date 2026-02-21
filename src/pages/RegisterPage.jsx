@@ -104,7 +104,9 @@ function RegisterPage() {
 
       <div className="register-card">
         <div className="register-header">
-          <h1 className="register-title gradient-text">Mada</h1>
+          <h1 className="register-title gradient-text">
+            <img src="/logo.png" alt="Logo" />
+          </h1>
           <p className="register-subtitle">Crie sua conta para começar</p>
         </div>
 

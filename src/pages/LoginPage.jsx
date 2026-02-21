@@ -88,7 +88,9 @@ function LoginPage() {
 
       <div className="login-card">
         <div className="login-header">
-          <h1 className="login-title gradient-text">Mada</h1>
+          <h1 className="login-title gradient-text">
+            <img src="/logo.png" alt="Logo" />
+          </h1>
           <p className="login-subtitle">Entre na sua conta</p>
         </div>
 

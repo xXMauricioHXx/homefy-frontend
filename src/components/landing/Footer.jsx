@@ -24,7 +24,7 @@ function Footer() {
               className="landing-navbar-logo gradient-text"
               style={{ marginBottom: "20px" }}
             >
-              Mada
+              <img src="/logo.png" alt="Logo" style={{ height: "32px" }} />
             </div>
             <p
               style={{
