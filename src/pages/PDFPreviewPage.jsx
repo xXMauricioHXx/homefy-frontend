@@ -76,7 +76,9 @@ function PDFPreviewContent({ data }) {
       >
         <div className="navbar-content">
           <div className="navbar-logo">
-            <span className="logo-text gradient-text">Mada</span>
+            <span className="logo-text gradient-text">
+              <img src="/logo.png" alt="Logo" style={{ height: "32px" }} />
+            </span>
           </div>
 
           <div className="navbar-actions">
@@ -158,18 +160,18 @@ function PDFPreviewPage() {
   useEffect(() => {
     // Check if user is on mobile device and redirect to mobile version
     const isMobileDevice = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const mobileKeywords = [
-        "android",
-        "webos",
-        "iphone",
-        "ipad",
-        "ipod",
-        "blackberry",
-        "windows phone",
-      ];
+      //  const userAgent = navigator.userAgent.toLowerCase();
+      // const mobileKeywords = [
+      //   "android",
+      //   "webos",
+      //   "iphone",
+      //   "ipad",
+      //   "ipod",
+      //   "blackberry",
+      //   "windows phone",
+      // ];
       return (
-        mobileKeywords.some((keyword) => userAgent.includes(keyword)) ||
+        // mobileKeywords.some((keyword) => userAgent.includes(keyword)) ||
         window.innerWidth < 768
       );
     };
@@ -215,7 +217,9 @@ function PDFPreviewPage() {
         >
           <div className="navbar-content">
             <div className="navbar-logo">
-              <span className="logo-text gradient-text">Mada</span>
+              <span className="logo-text gradient-text">
+                <img src="/logo.png" alt="Logo" style={{ height: "32px" }} />
+              </span>
             </div>
           </div>
         </nav>
@@ -258,7 +262,9 @@ function PDFPreviewPage() {
         >
           <div className="navbar-content">
             <div className="navbar-logo">
-              <span className="logo-text gradient-text">Homefy</span>
+              <span className="logo-text gradient-text">
+                <img src="/logo.png" alt="Logo" style={{ height: "32px" }} />
+              </span>
             </div>
           </div>
         </nav>
