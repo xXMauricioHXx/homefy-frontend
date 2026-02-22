@@ -63,6 +63,13 @@
   animation: fadeIn var(--transition-fast);
 }
 
+.form-input-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-left: var(--spacing-xs);
+  font-style: italic;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .form-input {

@@ -117,6 +117,7 @@ export function AuthProvider({ children }) {
         fetchUserData,
         updateUserData,
         setUserData,
+        isRegistering,
         setIsRegistering, // Expose setIsRegistering
       }}
     >

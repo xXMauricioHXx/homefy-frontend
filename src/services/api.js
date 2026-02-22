@@ -217,32 +217,39 @@ export async function fetchUserById(token) {
 }
 
 export async function saveUserData(userData, token) {
-  try {
-    const headers = {
-      "Content-Type": "application/json",
-    };
+  const headers = {
+    "Content-Type": "application/json",
+  };
 
-    // Add Authorization header
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}/scrap-createUser`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    // Try to extract structured error from backend response body
+    let backendMessage = null;
+    try {
+      const errorData = await response.json();
+      backendMessage = errorData.error || errorData.message || null;
+    } catch {
+      // ignore JSON parse errors
     }
-
-    const response = await fetch(`${API_BASE_URL}/scrap-createUser`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error saving user data:", error);
+    const error = new Error(
+      backendMessage || `HTTP error! status: ${response.status}`,
+    );
+    error.backendMessage = backendMessage;
+    error.status = response.status;
     throw error;
   }
+
+  const data = await response.json();
+  return data;
 }
 
 export async function updateUserData(userData, token) {

@@ -26,8 +26,6 @@ function ProfilePage() {
   } = useForm({
     defaultValues: {
       name: "",
-      phone: "",
-      email: "",
     },
   });
 
@@ -35,17 +33,18 @@ function ProfilePage() {
   useEffect(() => {
     if (userData) {
       setValue("name", userData.name || "");
-      setValue("phone", userData.phone || "");
-      setValue("email", userData.email || user?.email || "");
     }
-  }, [userData, user, setValue]);
+  }, [userData, setValue]);
 
   const onSubmit = async (data) => {
     setSuccessMessage("");
     setErrorMessage("");
 
+    // Only send editable fields (phone and email cannot be changed)
+    const { name } = data;
+
     try {
-      await updateUserData(data);
+      await updateUserData({ name });
       setSuccessMessage("Perfil atualizado com sucesso!");
       setIsEditing(false);
 
@@ -268,16 +267,11 @@ function ProfilePage() {
                 type="tel"
                 placeholder="+55 (11) 98765-4321"
                 register={register}
-                error={errors.phone}
-                disabled={!isEditing || userDataLoading}
-                {...register("phone", {
-                  required: "Telefone é obrigatório",
-                  pattern: {
-                    value: /^\+?[1-9]\d{1,14}$/,
-                    message:
-                      "Telefone deve estar no formato internacional (+55...)",
-                  },
-                })}
+                error={undefined}
+                disabled
+                value={userData?.phone || ""}
+                readOnly
+                hint="O telefone não pode ser alterado"
               />
 
               <FormInput
@@ -286,15 +280,11 @@ function ProfilePage() {
                 type="email"
                 placeholder="seu@email.com"
                 register={register}
-                error={errors.email}
-                disabled={!isEditing || userDataLoading}
-                {...register("email", {
-                  required: "Email é obrigatório",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Email inválido",
-                  },
-                })}
+                error={undefined}
+                disabled
+                value={userData?.email || user?.email || ""}
+                readOnly
+                hint="O email não pode ser alterado"
               />
             </div>
 

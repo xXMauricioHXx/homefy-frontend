@@ -13,6 +13,7 @@ export function FormInput({
   error,
   disabled = false,
   defaultValue,
+  hint,
   ...rest
 }) {
   return (
@@ -35,6 +36,7 @@ export function FormInput({
       {error && (
         <span className="form-input-error-message">{error.message}</span>
       )}
+      {hint && !error && <span className="form-input-hint">{hint}</span>}
     </div>
   );
 }
@@ -48,6 +50,7 @@ FormInput.propTypes = {
   error: PropTypes.object,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.string,
+  hint: PropTypes.string,
 };
 
 export default FormInput;

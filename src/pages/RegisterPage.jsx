@@ -7,7 +7,11 @@ import {
 } from "react-router-dom";
 import { resolvePostAuthDestination } from "../utils/postAuthRedirect";
 import { useForm } from "react-hook-form";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  deleteUser,
+} from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "../components/Button";
@@ -25,17 +29,23 @@ function RegisterPage() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user, setUserData, setIsRegistering } = useAuth();
+  const {
+    user,
+    loading: authLoading,
+    isRegistering,
+    setUserData,
+    setIsRegistering,
+  } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  // Redirect to resolved destination if already logged in
+  // Redirect to resolved destination if already logged in (skip while registering)
   useEffect(() => {
-    if (user && !loading) {
+    if (user && !authLoading && !isRegistering) {
       navigate(resolvePostAuthDestination(searchParams));
     }
-  }, [user, navigate, loading, searchParams]);
+  }, [user, navigate, authLoading, isRegistering, searchParams]);
 
   const onSubmit = async (data) => {
     setError("");
@@ -75,14 +85,41 @@ function RegisterPage() {
 
       // Navigate to app (AuthContext will handle the state update)
     } catch (err) {
-      setError(getErrorMessage(err.code));
+      // If the Firebase user was already created but the backend call failed,
+      // delete the Firebase user to allow a clean retry.
+      if (auth.currentUser) {
+        try {
+          await deleteUser(auth.currentUser);
+        } catch {
+          // ignore – user may not have been created yet
+        }
+      }
+      setError(getErrorMessage(err.code, err.backendMessage));
     } finally {
       setLoading(false);
       setIsRegistering(false);
     }
   };
 
-  const getErrorMessage = (code) => {
+  const getErrorMessage = (code, backendMessage) => {
+    // Handle backend API errors (phone/email already in use, etc.)
+    if (backendMessage) {
+      if (
+        /phone/i.test(backendMessage) &&
+        /already in use/i.test(backendMessage)
+      ) {
+        return "Este telefone já está em uso";
+      }
+      if (
+        /email/i.test(backendMessage) &&
+        /already in use/i.test(backendMessage)
+      ) {
+        return "Este email já está em uso";
+      }
+      return backendMessage;
+    }
+
+    // Handle Firebase Auth errors
     const errorMessages = {
       "auth/email-already-in-use": "Este email já está em uso",
       "auth/invalid-email": "Email inválido",
