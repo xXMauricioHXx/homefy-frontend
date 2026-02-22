@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { auth } from "../firebase";
+import { reload } from "firebase/auth";
 import {
   fetchUserById,
   saveUserData as saveUserDataApi,
@@ -81,6 +82,13 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Refresh the Firebase user object (used to detect email verification)
+  const refreshUser = async () => {
+    if (!auth.currentUser) return;
+    await reload(auth.currentUser);
+    setUser({ ...auth.currentUser });
+  };
+
   // Listen to auth state changes
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -119,6 +127,7 @@ export function AuthProvider({ children }) {
         setUserData,
         isRegistering,
         setIsRegistering, // Expose setIsRegistering
+        refreshUser,
       }}
     >
       {children}

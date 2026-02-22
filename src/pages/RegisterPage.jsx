@@ -11,6 +11,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   deleteUser,
+  sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -80,8 +81,17 @@ function RegisterPage() {
 
       setUserData(response);
 
-      // Navigate to resolved post-auth destination
-      navigate(resolvePostAuthDestination(searchParams));
+      // Send verification email (best-effort)
+      try {
+        await sendEmailVerification(userCredential.user, {
+          url: `${window.location.origin}/app`,
+        });
+      } catch (verifyErr) {
+        console.warn("Falha ao enviar e-mail de verificação:", verifyErr);
+      }
+
+      // Redirect to verification waiting screen
+      navigate("/verify-email");
 
       // Navigate to app (AuthContext will handle the state update)
     } catch (err) {

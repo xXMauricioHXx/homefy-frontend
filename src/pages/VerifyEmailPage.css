@@ -1,0 +1,238 @@
+/* Verify Email Page Styles – mirrors RegisterPage.css design language */
+
+.verify-email-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated Background */
+.verify-email-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.verify-email-background .gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: float 20s ease-in-out infinite;
+}
+
+.verify-email-background .orb-1 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #ffe5d9 0%, #ffd4c1 100%);
+  top: -10%;
+  right: -10%;
+  animation-delay: 0s;
+}
+
+.verify-email-background .orb-2 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #fff0e8 0%, #ffe5d9 100%);
+  bottom: -10%;
+  left: -10%;
+  animation-delay: 5s;
+}
+
+.verify-email-background .orb-3 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #ffeee6 0%, #ffd4c1 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 10s;
+}
+
+/* Card */
+.verify-email-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-xl);
+  background: rgba(248, 248, 248, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-xl);
+  animation: fadeIn 0.6s ease-out;
+  text-align: center;
+}
+
+/* Icon container */
+.verify-email-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(254, 99, 42, 0.15) 0%,
+    rgba(254, 99, 42, 0.08) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-lg);
+  animation: slideIn 0.6s ease-out 0.1s backwards;
+}
+
+.verify-email-icon svg {
+  width: 36px;
+  height: 36px;
+  color: var(--color-accent-primary);
+}
+
+/* Title / text */
+.verify-email-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: var(--spacing-sm);
+  animation: slideIn 0.6s ease-out 0.15s backwards;
+}
+
+.verify-email-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-xs);
+  animation: slideIn 0.6s ease-out 0.2s backwards;
+}
+
+.verify-email-address {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+  word-break: break-all;
+  margin-bottom: var(--spacing-xl);
+  animation: slideIn 0.6s ease-out 0.25s backwards;
+}
+
+/* Action buttons */
+.verify-email-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  animation: slideIn 0.6s ease-out 0.3s backwards;
+}
+
+.verify-btn-primary {
+  width: 100%;
+  padding: 0.875rem var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.verify-btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.verify-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.verify-btn-secondary {
+  width: 100%;
+  padding: 0.875rem var(--spacing-lg);
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.verify-btn-secondary:hover {
+  border-color: var(--color-accent-primary);
+  background: rgba(254, 99, 42, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Inline feedback messages */
+.verify-feedback {
+  font-size: 0.85rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.verify-feedback.success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--color-success);
+}
+
+.verify-feedback.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--color-error);
+}
+
+/* Footer links */
+.verify-email-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  animation: slideIn 0.6s ease-out 0.35s backwards;
+}
+
+.verify-logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: color var(--transition-fast);
+  padding: 0;
+}
+
+.verify-logout-btn:hover {
+  color: var(--color-error);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .verify-email-card {
+    padding: var(--spacing-xl);
+  }
+
+  .verify-email-title {
+    font-size: 1.35rem;
+  }
+
+  .verify-email-background .orb-1,
+  .verify-email-background .orb-2,
+  .verify-email-background .orb-3 {
+    width: 280px;
+    height: 280px;
+  }
+}

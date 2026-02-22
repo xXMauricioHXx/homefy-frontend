@@ -17,6 +17,7 @@ import LandingPage from "./pages/LandingPage";
 import PricingPage from "./pages/PricingPage";
 import RegisterPage from "./pages/RegisterPage";
 import SuccessPage from "./pages/SuccessPage";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 import "./App.css";
 
 function AppContent() {
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/checkout/success" element={<SuccessPage />} />
         <Route
           path="/app"

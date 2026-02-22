@@ -6,7 +6,11 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { resolvePostAuthDestination } from "../utils/postAuthRedirect";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  reload,
+} from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "../components/Button";
@@ -36,7 +40,20 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      // Reload to get the latest emailVerified state from Firebase
+      await reload(userCredential.user);
+
+      if (!auth.currentUser?.emailVerified) {
+        // Block unverified users
+        navigate("/verify-email");
+        return;
+      }
+
       setEmail("");
       setPassword("");
       navigate(resolvePostAuthDestination(searchParams));
